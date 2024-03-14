@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class RateCache {
+public class RateService {
     private static final String RATE_CACHE_NAME = "rate";
     private final CurrencyRateRepository currencyRateRepository;
 
@@ -20,5 +20,5 @@ public class RateCache {
     }
 
     @CacheEvict(value = RATE_CACHE_NAME, key = "#quote")
-    public void evictRate(Currency quote) {}
+    public void evictRateCache(Currency quote) {}
 }
