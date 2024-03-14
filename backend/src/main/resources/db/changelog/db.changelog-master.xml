@@ -28,4 +28,8 @@
     <changeSet id="1710437576810" author="Nikita Viira">
         <addUniqueConstraint tableName="currency_rates" columnNames="quote,base,date" />
     </changeSet>
+
+    <changeSet id="1710445060008" author="Nikita Viira">
+        <modifyDataType tableName="currency_rates" columnName="rate" newDataType="NUMERIC(20,6)" />
+    </changeSet>
 </databaseChangeLog>

@@ -27,7 +27,12 @@ public class CurrencyRate {
   @Enumerated(STRING)
   private Currency quote;
 
+  @Column(scale = 20, precision = 6)
   private BigDecimal rate;
 
   private LocalDate date;
+
+  public BigDecimal getRate() {
+    return rate.stripTrailingZeros();
+  }
 }

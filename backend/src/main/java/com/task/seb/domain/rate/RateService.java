@@ -14,7 +14,7 @@ public class RateService {
     private static final String RATE_CACHE_NAME = "rate";
     private final CurrencyRateRepository currencyRateRepository;
 
-    @Cacheable(value = RATE_CACHE_NAME, key = "#quote", unless = "#result.empty()")
+    @Cacheable(value = RATE_CACHE_NAME, key = "#quote", unless = "#result == null")
     public Optional<CurrencyRate> getLatestRate(Currency quote) {
         return currencyRateRepository.findFirstByQuoteOrderByDateDesc(quote);
     }
