@@ -5,4 +5,27 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
           https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+    <changeSet id="1710437574290" author="Nikita Viira">
+        <createTable tableName="currency_rates">
+            <column name="id" type="IDENTITY">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="base" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quote" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="NUMERIC">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1710437576810" author="Nikita Viira">
+        <addUniqueConstraint tableName="currency_rates" columnNames="quote,base,date" />
+    </changeSet>
 </databaseChangeLog>
