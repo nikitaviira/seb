@@ -1,4 +1,4 @@
-package com.task.seb.integration;
+package com.task.seb.integration.util;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

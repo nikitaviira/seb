@@ -1,4 +1,4 @@
-package com.task.seb.integration;
+package com.task.seb.integration.util;
 
 import com.task.seb.SebTaskApplication;
 import org.junit.jupiter.api.AfterEach;

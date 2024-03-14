@@ -3,6 +3,7 @@ package com.task.seb.integration;
 import com.task.seb.domain.rate.CurrencyRate;
 import com.task.seb.domain.rate.CurrencyRateRepository;
 import com.task.seb.domain.rate.RateService;
+import com.task.seb.integration.util.IntTestBase;
 import com.task.seb.util.Currency;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
