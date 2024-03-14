@@ -30,6 +30,6 @@
     </changeSet>
 
     <changeSet id="1710445060008" author="Nikita Viira">
-        <modifyDataType tableName="currency_rates" columnName="rate" newDataType="NUMERIC(20,6)" />
+        <modifyDataType tableName="currency_rates" columnName="rate" newDataType="NUMERIC(6,20)" />
     </changeSet>
 </databaseChangeLog>
