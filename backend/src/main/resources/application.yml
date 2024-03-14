@@ -27,9 +27,12 @@ spring:
 rates-api:
   base-url: https://www.lb.lt/webservices/FxRates/FxRates.asmx
 
+cors:
+  allowed-origins: http://localhost:4200
+
 logging:
   level:
     com:
       task:
         seb:
-          RatesApiClient: DEBUG
+          com.task.seb.client.RatesApiClient: DEBUG
