@@ -29,7 +29,15 @@ public class FeignClientConfiguration {
     }
 
     @Bean
-    public XmlMapper xmlMapper() {
+    public Decoder feignDecoder() {
+        return (response, type) -> {
+            String bodyStr = Util.toString(response.body().asReader(UTF_8));
+            JavaType javaType = TypeFactory.defaultInstance().constructType(type);
+            return xmlMapper().readValue(bodyStr, javaType);
+        };
+    }
+
+    private XmlMapper xmlMapper() {
         var xmlMapper = new XmlMapper();
         xmlMapper.registerModule(new JavaTimeModule());
         xmlMapper.configure(WRITE_DATES_AS_TIMESTAMPS, false);
@@ -39,18 +47,9 @@ public class FeignClientConfiguration {
     }
 
     @Bean
-    public Decoder feignDecoder(XmlMapper xmlMapper) {
-        return (response, type) -> {
-            String bodyStr = Util.toString(response.body().asReader(UTF_8));
-            JavaType javaType = TypeFactory.defaultInstance().constructType(type);
-            return xmlMapper.readValue(bodyStr, javaType);
-        };
-    }
-
-    @Bean
     public RatesApiClient ratesApiClient(@Value("${rates-api.base-url}") String baseUrl) {
         return Feign.builder()
-            .decoder(feignDecoder(xmlMapper()))
+            .decoder(feignDecoder())
             .contract(new SpringMvcContract())
             .target(RatesApiClient.class, baseUrl);
     }
