@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
 
+import static com.task.seb.util.DateUtil.resetMockNow;
 import static java.util.Objects.requireNonNull;
 
 @SpringBootTest(classes = SebTaskApplication.class)
@@ -21,5 +22,6 @@ public abstract class IntTestBase {
   void afterEach() {
     eraseDbHelper.cleanupDatabase();
     cacheManager.getCacheNames().forEach(cacheName -> requireNonNull(cacheManager.getCache(cacheName)).clear());
+    resetMockNow();
   }
 }

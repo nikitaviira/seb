@@ -1,6 +1,5 @@
 package com.task.seb.client;
 
-import com.task.seb.client.FxRates;
 import com.task.seb.util.Currency;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
