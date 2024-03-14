@@ -2,6 +2,7 @@ package com.task.seb.domain.rate;
 
 import com.task.seb.dto.ConversionRequestDto;
 import com.task.seb.dto.ConversionResultDto;
+import com.task.seb.exception.ServiceException;
 import com.task.seb.util.Currency;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class CurrencyConverterService {
 
   private void validateCurrency(ConversionRequestDto conversionRequest) {
     if (conversionRequest.base() != BASE_CURRENCY && conversionRequest.quote() != BASE_CURRENCY) {
-      throw new IllegalArgumentException("Only conversions from or to " + BASE_CURRENCY + " are available");
+      throw new ServiceException("Only conversions from or to " + BASE_CURRENCY + " are available");
     }
   }
 
