@@ -25,16 +25,10 @@ public class EraseDbHelper {
         for (String tableName : tableNames) {
             if (!IGNORED_TABLES.contains(tableName)) {
                 entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
+                entityManager.createNativeQuery("ALTER TABLE " + tableName + " ALTER COLUMN ID RESTART WITH 1").executeUpdate();
             }
+
+            entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
         }
-
-        List<String> sequenceNames = entityManager.createNativeQuery(
-            "SELECT SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA='PUBLIC'", String.class).getResultList();
-
-        for (String sequenceName : sequenceNames) {
-            entityManager.createNativeQuery("ALTER SEQUENCE " + sequenceName + " RESTART WITH 1").executeUpdate();
-        }
-
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
     }
 }
