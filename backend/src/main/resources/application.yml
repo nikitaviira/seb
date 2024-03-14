@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: seb-task
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: root
+    password: root
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        order_inserts: true
+        jdbc:
+          batch_size: 50
+  h2:
+    console:
+      enabled: true
+      path: /console
+
+rates-api:
+  base-url: https://www.lb.lt/webservices/FxRates/FxRates.asmx
+
+logging:
+  level:
+    com:
+      task:
+        seb:
+          RatesApiClient: DEBUG
