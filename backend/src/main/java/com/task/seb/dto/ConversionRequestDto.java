@@ -8,11 +8,11 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record ConversionRequestDto(
-    @NotNull
+    @NotNull(message = "{field.mandatory}")
     Currency base,
-    @NotNull
+    @NotNull(message = "{field.mandatory}")
     Currency quote,
-    @DecimalMin(value = "0.0", inclusive = false)
-    @Digits(integer = 10, fraction = 3)
+    @DecimalMin(value = "0.0", inclusive = false, message = "{field.moreThanZero}")
+    @Digits(integer = 10, fraction = 3, message = "{field.numberOutOfBounds}")
     BigDecimal amount
 ) {}
