@@ -12,10 +12,11 @@ import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 @FeignClient(name = "rates-api", url = "${rates-api.base-url}")
 public interface RatesApiClient {
     @GetMapping(value = "/getCurrentFxRates", consumes = APPLICATION_XML_VALUE)
-    FxRates getCurrentFxRates();
+    FxRates getCurrentFxRates(@RequestParam("tp") ExchangeRateType exchangeRateType);
 
     @GetMapping(value = "/getFxRatesForCurrency", consumes = APPLICATION_XML_VALUE)
-    FxRates getFxRatesForCurrency(@RequestParam("ccy") Currency quote,
+    FxRates getFxRatesForCurrency(@RequestParam("tp") ExchangeRateType exchangeRateType,
+                                  @RequestParam("ccy") Currency quote,
                                   @RequestParam("dtFrom") LocalDate from,
                                   @RequestParam("dtTo") LocalDate to);
 }
