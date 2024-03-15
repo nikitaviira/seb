@@ -15,6 +15,7 @@ import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
 import static com.task.seb.util.DateUtil.today;
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.HALF_UP;
+import static java.time.LocalDate.EPOCH;
 import static java.util.Comparator.comparing;
 
 @Service
@@ -24,7 +25,7 @@ public class ChartService {
   private final RatesSyncService ratesSyncService;
 
   @Transactional
-  public ChartDto historicalRateChartData(Currency quote, ChartType chartType) {
+  public ChartDto historicalChart(Currency quote, ChartType chartType) {
     LocalDate today = today();
     LocalDate startDate = chartStartDate(chartType, today);
     List<CurrencyRate> dbRates = fetchRates(quote, startDate);
@@ -36,10 +37,10 @@ public class ChartService {
   }
 
   private List<CurrencyRate> fetchRates(Currency quote, LocalDate startDate) {
-    List<CurrencyRate> dbRates = currencyRateRepository.findByQuoteAndBaseAndDateAfter(quote, BASE_CURRENCY, startDate);
+    List<CurrencyRate> dbRates = currencyRateRepository.findByQuoteAndBaseAndDateGreaterThanEqual(quote, BASE_CURRENCY, startDate);
     if (dbRates.isEmpty()) {
       return ratesSyncService.loadAndSaveHistoricalRates(quote).stream()
-          .filter(rate -> rate.getDate().isAfter(startDate))
+          .filter(rate -> !rate.getDate().isBefore(startDate))
           .toList();
     }
     return dbRates;
@@ -67,12 +68,13 @@ public class ChartService {
     return endValue.subtract(startValue)
         .divide(startValue, 6, HALF_UP)
         .multiply(new BigDecimal(100))
-        .setScale(2, HALF_UP);
+        .setScale(2, HALF_UP)
+        .stripTrailingZeros();
   }
 
   private LocalDate chartStartDate(ChartType chartType, LocalDate today) {
     return switch (chartType) {
-      case ALL -> LocalDate.MIN;
+      case ALL -> EPOCH;
       case YEAR -> today.minusYears(1);
       case YTD -> today.withDayOfYear(1);
       case MONTH -> today.minusMonths(1);
