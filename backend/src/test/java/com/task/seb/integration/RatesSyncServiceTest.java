@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -47,9 +48,9 @@ public class RatesSyncServiceTest extends IntTestBase {
     List<CurrencyRate> currencyRates = ratesSyncService.loadAndSaveHistoricalRates(USD);
     assertThat(currencyRates).hasSize(16);
 
-    var latest = rate(today, USD, "1.0939");
-    latest.setId(1L);
-    assertThat(currencyRates.getFirst()).isEqualTo(latest);
+    assertThat(currencyRates.getFirst().getRate()).isEqualByComparingTo(new BigDecimal("1.0939"));
+    assertThat(currencyRates.getFirst().getDate()).isEqualTo(today);
+    assertThat(currencyRates.getFirst().getQuote()).isEqualTo(USD);
   }
 
   @Test
@@ -68,9 +69,8 @@ public class RatesSyncServiceTest extends IntTestBase {
 
     List<CurrencyRate> rates = currencyRateRepository.findAll();
     assertThat(rates).hasSize(1);
-
-    var usdRate = rate(today, USD, "1.0925");
-    usdRate.setId(1L);
-    assertThat(rates.getFirst()).isEqualTo(usdRate);
+    assertThat(rates.getFirst().getRate()).isEqualByComparingTo(new BigDecimal("1.0925"));
+    assertThat(rates.getFirst().getDate()).isEqualTo(today);
+    assertThat(rates.getFirst().getQuote()).isEqualTo(USD);
   }
 }

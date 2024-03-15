@@ -34,11 +34,11 @@ public class RateServiceTest extends IntTestBase {
 
     Optional<CurrencyRate> notCachedRate = rateService.getLatestRate(quote);
     assertThat(notCachedRate).isPresent();
-    assertThat(notCachedRate.get().getRate()).isEqualTo(new BigDecimal("1.555"));
+    assertThat(notCachedRate.get().getRate()).isEqualByComparingTo(new BigDecimal("1.555"));
 
     Optional<CurrencyRate> cachedRate = rateService.getLatestRate(quote);
     assertThat(cachedRate).isPresent();
-    assertThat(cachedRate.get().getRate()).isEqualTo(new BigDecimal("1.555"));
+    assertThat(cachedRate.get().getRate()).isEqualByComparingTo(new BigDecimal("1.555"));
 
     verify(currencyRateRepository, times(1)).findFirstByQuoteOrderByDateDesc(quote);
   }

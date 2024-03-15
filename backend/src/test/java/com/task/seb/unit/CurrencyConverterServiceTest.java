@@ -21,8 +21,9 @@ import static com.task.seb.util.Currency.*;
 import static com.task.seb.util.DateUtil.today;
 import static java.math.BigDecimal.ONE;
 import static java.util.Optional.empty;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -36,20 +37,31 @@ public class CurrencyConverterServiceTest {
   private CurrencyConverterService service;
 
   @Test
-  void shouldThrowExceptionWhenNeitherBaseNorQuoteIsEUR() {
-    ConversionRequestDto request = new ConversionRequestDto(USD, GBP, new BigDecimal(100));
+  void shouldThrowExceptionWhenEitherBaseOrQuoteIsUnknown() {
+    assertThatThrownBy(() -> service.convert(new ConversionRequestDto(EUR, UNKNOWN, new BigDecimal(100))))
+        .isInstanceOf(ServiceException.class)
+        .hasMessage("Unsupported currency");
 
-    Exception exception = assertThrows(ServiceException.class, () -> service.convert(request));
-    assertEquals("Only conversions from or to EUR are available", exception.getMessage());
+    assertThatThrownBy(() -> service.convert(new ConversionRequestDto(UNKNOWN, EUR, new BigDecimal(100))))
+        .isInstanceOf(ServiceException.class)
+        .hasMessage("Unsupported currency");
+  }
+
+  @Test
+  void shouldThrowExceptionWhenNeitherBaseNorQuoteIsEUR() {
+    assertThatThrownBy(() -> service.convert(new ConversionRequestDto(USD, GBP, new BigDecimal(100))))
+        .isInstanceOf(ServiceException.class)
+        .hasMessage("Only conversions from or to EUR are available");
   }
 
   @Test
   void shouldReturnOneAsRateForSameBaseAndQuote() {
-    ConversionRequestDto request = new ConversionRequestDto(EUR, EUR, new BigDecimal(100));
+    BigDecimal amount = new BigDecimal(100);
+    ConversionRequestDto request = new ConversionRequestDto(EUR, EUR, amount);
 
     ConversionResultDto result = service.convert(request);
     assertEquals(ONE, result.conversionRate());
-    assertEquals(new BigDecimal("100.00"), result.conversionResult());
+    assertThat(result.conversionResult()).isEqualByComparingTo(amount);
   }
 
   @Test
@@ -59,8 +71,8 @@ public class CurrencyConverterServiceTest {
     ConversionRequestDto request = new ConversionRequestDto(EUR, USD, new BigDecimal(100));
     ConversionResultDto result = service.convert(request);
 
-    assertEquals(new BigDecimal("1.169156"), result.conversionRate());
-    assertEquals(new BigDecimal("116.92"), result.conversionResult());
+    assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("1.169156"));
+    assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("116.92"));
   }
 
   @Test
@@ -70,8 +82,8 @@ public class CurrencyConverterServiceTest {
     ConversionRequestDto request = new ConversionRequestDto(USD, EUR, new BigDecimal("15.30"));
     ConversionResultDto result = service.convert(request);
 
-    assertEquals(new BigDecimal("0.855318"), result.conversionRate());
-    assertEquals(new BigDecimal("13.09"), result.conversionResult());
+    assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("0.855318"));
+    assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("13.09"));
   }
 
   @Test
@@ -85,7 +97,7 @@ public class CurrencyConverterServiceTest {
     ConversionRequestDto request = new ConversionRequestDto(EUR, USD, new BigDecimal(100));
     ConversionResultDto result = service.convert(request);
 
-    assertEquals(new BigDecimal("1.3512"), result.conversionRate());
-    assertEquals(new BigDecimal("135.12"), result.conversionResult());
+    assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("1.3512"));
+    assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("135.12"));
   }
 }

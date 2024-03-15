@@ -74,8 +74,7 @@ public class ChartService {
     return endValue.subtract(startValue)
         .divide(startValue, 6, HALF_UP)
         .multiply(new BigDecimal(100))
-        .setScale(2, HALF_UP)
-        .stripTrailingZeros();
+        .setScale(2, HALF_UP);
   }
 
   private LocalDate chartStartDate(ChartType chartType, LocalDate today) {

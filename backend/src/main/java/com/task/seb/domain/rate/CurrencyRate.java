@@ -31,8 +31,4 @@ public class CurrencyRate {
   private BigDecimal rate;
 
   private LocalDate date;
-
-  public BigDecimal getRate() {
-    return rate.stripTrailingZeros();
-  }
 }

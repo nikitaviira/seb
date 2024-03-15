@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
+import static com.task.seb.util.Currency.UNKNOWN;
 import static java.math.BigDecimal.ONE;
 import static java.math.RoundingMode.HALF_UP;
 
@@ -22,13 +23,13 @@ public class CurrencyConverterService {
   public ConversionResultDto convert(ConversionRequestDto conversionRequest) {
     BigDecimal conversionRate = conversionRate(conversionRequest);
     return new ConversionResultDto(
-        conversionRate.stripTrailingZeros(),
+        conversionRate,
         convert(conversionRate, conversionRequest.amount())
     );
   }
 
   private BigDecimal convert(BigDecimal rate, BigDecimal amount) {
-    return amount.multiply(rate).setScale(2, HALF_UP).stripTrailingZeros();
+    return amount.multiply(rate).setScale(2, HALF_UP);
   }
 
   private BigDecimal conversionRate(ConversionRequestDto conversionRequest) {
@@ -43,6 +44,9 @@ public class CurrencyConverterService {
   }
 
   private void validateCurrency(ConversionRequestDto conversionRequest) {
+    if (conversionRequest.base() == UNKNOWN || conversionRequest.quote() == UNKNOWN) {
+      throw new ServiceException("Unsupported currency");
+    }
     if (conversionRequest.base() != BASE_CURRENCY && conversionRequest.quote() != BASE_CURRENCY) {
       throw new ServiceException("Only conversions from or to " + BASE_CURRENCY + " are available");
     }
