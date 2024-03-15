@@ -53,7 +53,7 @@ public class CurrencyConverterService {
   }
 
   private Currency determineConversionCurrency(ConversionRequestDto conversionRequest) {
-    return conversionRequest.quote() == BASE_CURRENCY ? conversionRequest.base() : conversionRequest.quote();
+    return isEurBaseCurrency(conversionRequest) ? conversionRequest.quote() : conversionRequest.base();
   }
 
   private BigDecimal fetchConversionRate(Currency conversionCurrency) {
