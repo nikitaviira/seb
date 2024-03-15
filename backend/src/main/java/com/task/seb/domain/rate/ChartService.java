@@ -12,10 +12,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
+import static com.task.seb.util.Currency.UNKNOWN;
 import static com.task.seb.util.DateUtil.today;
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.HALF_UP;
 import static java.time.LocalDate.EPOCH;
+import static java.util.Collections.emptyList;
 import static java.util.Comparator.comparing;
 
 @Service
@@ -26,6 +28,10 @@ public class ChartService {
 
   @Transactional
   public ChartDto historicalChart(Currency quote, ChartType chartType) {
+    if (quote == UNKNOWN || quote == BASE_CURRENCY) {
+      return new ChartDto(emptyList(), ZERO);
+    }
+
     LocalDate today = today();
     LocalDate startDate = chartStartDate(chartType, today);
     List<CurrencyRate> dbRates = fetchRates(quote, startDate);

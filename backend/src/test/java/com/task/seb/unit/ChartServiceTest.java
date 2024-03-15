@@ -20,10 +20,12 @@ import java.util.List;
 
 import static com.task.seb.Helper.rate;
 import static com.task.seb.domain.rate.ChartType.*;
+import static com.task.seb.domain.rate.ChartType.ALL;
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
-import static com.task.seb.util.Currency.USD;
+import static com.task.seb.util.Currency.*;
 import static com.task.seb.util.DateUtil.resetMockNow;
 import static com.task.seb.util.DateUtil.setMockNow;
+import static java.math.BigDecimal.ZERO;
 import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,6 +46,19 @@ public class ChartServiceTest {
   @AfterEach
   void afterEach() {
     resetMockNow();
+  }
+
+  @Test
+  void whenQuoteIsEurOrUnknown_thenReturnEmptyChart() {
+    ChartDto result1 = service.historicalChart(EUR, YEAR);
+    assertThat(result1.chartPoints()).isEmpty();
+    assertThat(result1.changePercent()).isEqualTo(ZERO);
+
+    ChartDto result2 = service.historicalChart(UNKNOWN, YEAR);
+    assertThat(result2.chartPoints()).isEmpty();
+    assertThat(result2.changePercent()).isEqualTo(ZERO);
+
+    verify(currencyRateRepository, never()).findByQuoteAndBaseAndDateGreaterThanEqual(any(), any(), any());
   }
 
   @Test
