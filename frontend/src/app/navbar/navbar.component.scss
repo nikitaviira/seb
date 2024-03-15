@@ -1,0 +1,116 @@
+@import "../../variables.scss";
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: white;
+  position: relative;
+
+  .logo img {
+    height: 6rem;
+    width: 6rem;
+  }
+
+  .default {
+    height: 6rem;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .links {
+    display: flex;
+    align-self: center;
+    padding-left: 1rem;
+    height: 100%;
+
+    .link {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      color: #333;
+      height: inherit;
+      padding-left: 1rem;
+      padding-right: 1rem;
+
+      &.active {
+        color: $main-color;
+      }
+
+      &:hover:not(.active) {
+        color: #0092E1;
+      }
+    }
+  }
+
+  .toggle-button {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem 0.75rem;
+    margin: .5rem;
+    line-height: 1;
+  }
+
+  .collapsible-menu {
+    display: flex;
+    overflow: hidden;
+    background: #1A1A1A;
+    flex-direction: column;
+    width: 100%;
+
+    .content {
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+
+      .link {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: white;
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        border-bottom: 1px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &:after {
+          transform: rotate(45deg);
+          float: right;
+          margin-right: 0.5rem;
+          width: 0.4em;
+          height: 0.4em;
+          border-top: 0.1em solid;
+          border-right: 0.1em solid;
+          font-size: 1rem;
+          content: "";
+        }
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .logo img {
+      height: 4rem;
+      width: 4rem;
+    }
+
+    .default {
+      height: 4rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .links {
+      display: none;
+    }
+
+    .toggle-button {
+      display: block;
+    }
+  }
+}

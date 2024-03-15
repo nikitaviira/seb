@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="default">
+    <div class="logo">
+      <a [routerLink]="['/chart']">
+        <img alt="Logo" ngSrc="/assets/SebLogo.svg" priority height="1" width="1"/>
+      </a>
+    </div>
+    <div class="links">
+      <a class="link" [routerLink]="['/chart']" [routerLinkActive]="['active']">Historical chart</a>
+      <a class="link" [routerLink]="['/converter']" [routerLinkActive]="['active']">Currency converter</a>
+    </div>
+    <button (click)="toggleCollapse()" class="toggle-button">&#9776;</button>
+  </div>
+  <div [@collapse]="collapsed" class="collapsible-menu">
+    <div class="content">
+      <a class="link" [routerLink]="['/chart']" [routerLinkActive]="['active']">Historical chart</a>
+      <a class="link" [routerLink]="['/converter']" [routerLinkActive]="['active']">Currency converter</a>
+    </div>
+  </div>
+</nav>
