@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @JacksonXmlRootElement(localName = "FxRates")
@@ -17,7 +18,7 @@ import java.util.List;
 public class FxRates {
     @JacksonXmlProperty(localName = "FxRate")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<FxRate> rates;
+    private List<FxRate> rates = new ArrayList<>();
 
     @Getter
     @Setter
