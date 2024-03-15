@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.task.seb.Helper.rate;
 import static com.task.seb.domain.rate.ChartType.*;
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
 import static com.task.seb.util.Currency.USD;
@@ -48,11 +49,11 @@ public class ChartServiceTest {
   @Test
   void whenDbRatesEmpty_thenFetchFromService() {
     Currency quote = USD;
-    when(currencyRateRepository.findByQuoteAndBaseAndDateAfter(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
+    when(currencyRateRepository.findByQuoteAndBaseAndDateGreaterThanEqual(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
         .thenReturn(emptyList());
-    when(ratesSyncService.loadAndSaveHistoricalRates(eq(quote))).thenReturn(List.of(rate("1.2", quote, LocalDate.now())));
+    when(ratesSyncService.loadAndSaveHistoricalRates(eq(quote))).thenReturn(List.of(rate(LocalDate.now(), quote, "1.2")));
 
-    ChartDto result = service.historicalRateChartData(quote, YEAR);
+    ChartDto result = service.historicalChart(quote, YEAR);
 
     assertEquals(1, result.chartPoints().size());
     verify(ratesSyncService).loadAndSaveHistoricalRates(quote);
@@ -61,10 +62,10 @@ public class ChartServiceTest {
   @Test
   void whenDbRatesNotEmpty_thenUseDbRates() {
     Currency quote = USD;
-    when(currencyRateRepository.findByQuoteAndBaseAndDateAfter(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
-        .thenReturn(List.of(rate("1.2", quote, LocalDate.now())));
+    when(currencyRateRepository.findByQuoteAndBaseAndDateGreaterThanEqual(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
+        .thenReturn(List.of(rate(LocalDate.now(), quote, "1.2")));
 
-    ChartDto result = service.historicalRateChartData(quote, YEAR);
+    ChartDto result = service.historicalChart(quote, YEAR);
 
     assertEquals(1, result.chartPoints().size());
     verify(ratesSyncService, never()).loadAndSaveHistoricalRates(any());
@@ -77,27 +78,27 @@ public class ChartServiceTest {
 
     Currency quote = USD;
     List<CurrencyRate> dbRates = List.of(
-        rate("1.2", quote, today),
-        rate("1.5", quote, today.minusMonths(1).plusDays(1)),
-        rate("1.4", quote, today.minusDays(10)),
-        rate("1.9", quote, today.minusYears(5)),
-        rate("1.8", quote, today.minusYears(1)),
-        rate("1.7", quote, today.withDayOfYear(1).minusDays(1)),
-        rate("1.3", quote, today.minusMonths(1))
+        rate(today, quote, "1.2"),
+        rate(today.minusDays(10), quote, "1.4"),
+        rate(today.minusMonths(1), quote, "1.5"),
+        rate(today.minusMonths(1).minusDays(1), quote, "1.3"),
+        rate(today.withDayOfYear(1), quote, "1.7"),
+        rate(today.minusYears(1), quote, "1.8"),
+        rate(today.minusYears(1).minusDays(1), quote, "1.9")
     );
 
-    when(currencyRateRepository.findByQuoteAndBaseAndDateAfter(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
+    when(currencyRateRepository.findByQuoteAndBaseAndDateGreaterThanEqual(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
         .thenReturn(emptyList());
     when(ratesSyncService.loadAndSaveHistoricalRates(eq(quote))).thenReturn(dbRates);
 
-    ChartDto yearResult = service.historicalRateChartData(quote, YEAR);
-    ChartDto monthResult = service.historicalRateChartData(quote, MONTH);
-    ChartDto ytdResult = service.historicalRateChartData(quote, YTD);
-    ChartDto allTimeResult = service.historicalRateChartData(quote, ALL);
+    ChartDto yearResult = service.historicalChart(quote, YEAR);
+    ChartDto monthResult = service.historicalChart(quote, MONTH);
+    ChartDto ytdResult = service.historicalChart(quote, YTD);
+    ChartDto allTimeResult = service.historicalChart(quote, ALL);
 
-    assertEquals(5, yearResult.chartPoints().size());
+    assertEquals(6, yearResult.chartPoints().size());
     assertEquals(3, monthResult.chartPoints().size());
-    assertEquals(4, ytdResult.chartPoints().size());
+    assertEquals(5, ytdResult.chartPoints().size());
     assertEquals(7, allTimeResult.chartPoints().size());
   }
 
@@ -106,15 +107,15 @@ public class ChartServiceTest {
   void whenMultipleRates_thenCalculatePercentageDifferenceCorrectly() {
     Currency quote = USD;
     LocalDate today = LocalDate.of(2024, 3, 14);
-    when(currencyRateRepository.findByQuoteAndBaseAndDateAfter(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
+    when(currencyRateRepository.findByQuoteAndBaseAndDateGreaterThanEqual(eq(quote), eq(BASE_CURRENCY), any(LocalDate.class)))
         .thenReturn(List.of(
-            rate("1.7", quote, today.minusDays(1)),
-            rate("1.3", quote, today.minusDays(5)),
-            rate("1.5", quote, today.minusDays(3)),
-            rate("1.9", quote, today))
+            rate(today.minusDays(1), quote, "1.7"),
+            rate(today.minusDays(5), quote, "1.3"),
+            rate(today.minusDays(3), quote, "1.5"),
+            rate(today, quote, "1.9"))
         );
 
-    ChartDto result = service.historicalRateChartData(quote, MONTH);
+    ChartDto result = service.historicalChart(quote, MONTH);
 
     assertEquals(result.changePercent(), new BigDecimal("46.15"));
     assertThat(result.chartPoints()).containsExactly(
@@ -123,13 +124,5 @@ public class ChartServiceTest {
         new ChartPointDto(LocalDate.of(2024, 3, 13), new BigDecimal("1.7")),
         new ChartPointDto(LocalDate.of(2024, 3, 14), new BigDecimal("1.9"))
     );
-  }
-
-  private CurrencyRate rate(String rate, Currency quote, LocalDate date) {
-    var currencyPairRate = new CurrencyRate();
-    currencyPairRate.setRate(new BigDecimal(rate));
-    currencyPairRate.setQuote(quote);
-    currencyPairRate.setDate(date);
-    return currencyPairRate;
   }
 }

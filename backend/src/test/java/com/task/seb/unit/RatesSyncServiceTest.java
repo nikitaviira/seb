@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static com.task.seb.Helper.rate;
+import static com.task.seb.client.ExchangeRateType.LT;
 import static com.task.seb.util.Currency.*;
 import static com.task.seb.util.DateUtil.resetMockNow;
 import static com.task.seb.util.DateUtil.setMockNow;
@@ -54,7 +56,7 @@ public class RatesSyncServiceTest {
         Currency quote = USD;
         FxRates rates = createRates(today);
 
-        when(ratesApiClient.getFxRatesForCurrency(eq(quote), eq(LocalDate.of(2021, 3, 14)), eq(today)))
+        when(ratesApiClient.getFxRatesForCurrency(eq(LT), eq(quote), eq(LocalDate.of(2021, 3, 14)), eq(today)))
             .thenReturn(rates);
 
         List<CurrencyRate> result = ratesSyncService.loadAndSaveHistoricalRates(quote);
@@ -63,7 +65,10 @@ public class RatesSyncServiceTest {
         verify(currencyRateRepository).saveAll(captor.capture());
 
         List<CurrencyRate> captorValue = captor.getValue();
-        assertThat(captorValue).containsExactly(rate("1.09", USD, today), rate("1.15", JPY, today.plusDays(1)));
+        assertThat(captorValue).containsExactly(
+            rate(today, USD, "1.09"),
+            rate(today.plusDays(1), JPY, "1.15")
+        );
     }
 
     @Test
@@ -71,7 +76,7 @@ public class RatesSyncServiceTest {
         LocalDate today = LocalDate.of(2024, 3, 14);
         FxRates rates = createRates(today);
 
-        when(ratesApiClient.getCurrentFxRates()).thenReturn(rates);
+        when(ratesApiClient.getCurrentFxRates(eq(LT))).thenReturn(rates);
         var oldRate = new CurrencyRate();
         oldRate.setDate(today.minusDays(1));
         when(rateService.getLatestRate(eq(USD))).thenReturn(Optional.of(oldRate));
@@ -85,15 +90,7 @@ public class RatesSyncServiceTest {
         verify(currencyRateRepository).saveAll(captor.capture());
 
         List<CurrencyRate> captorValue = captor.getValue();
-        assertThat(captorValue).containsExactly(rate("1.09", USD, today));
-    }
-
-    private CurrencyRate rate(String rate, Currency quote, LocalDate date) {
-        var currencyPairRate = new CurrencyRate();
-        currencyPairRate.setRate(new BigDecimal(rate));
-        currencyPairRate.setQuote(quote);
-        currencyPairRate.setDate(date);
-        return currencyPairRate;
+        assertThat(captorValue).containsExactly(rate(today, USD, "1.09"));
     }
 
     private FxRates createRates(LocalDate date) {

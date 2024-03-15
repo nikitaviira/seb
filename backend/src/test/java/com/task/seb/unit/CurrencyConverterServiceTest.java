@@ -1,11 +1,11 @@
 package com.task.seb.unit;
 
 import com.task.seb.domain.rate.CurrencyConverterService;
-import com.task.seb.domain.rate.CurrencyRate;
 import com.task.seb.domain.rate.RateService;
 import com.task.seb.domain.rate.RatesSyncService;
 import com.task.seb.dto.ConversionRequestDto;
 import com.task.seb.dto.ConversionResultDto;
+import com.task.seb.exception.ServiceException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +16,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.task.seb.Helper.rate;
 import static com.task.seb.util.Currency.*;
+import static com.task.seb.util.DateUtil.today;
 import static java.math.BigDecimal.ONE;
 import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +39,7 @@ public class CurrencyConverterServiceTest {
   void shouldThrowExceptionWhenNeitherBaseNorQuoteIsEUR() {
     ConversionRequestDto request = new ConversionRequestDto(USD, GBP, new BigDecimal(100));
 
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> service.convert(request));
+    Exception exception = assertThrows(ServiceException.class, () -> service.convert(request));
     assertEquals("Only conversions from or to EUR are available", exception.getMessage());
   }
 
@@ -52,7 +54,7 @@ public class CurrencyConverterServiceTest {
 
   @Test
   void shouldReturnRateForConversionFromEUR() {
-    when(rateService.getLatestRate(any())).thenReturn(Optional.of(rate("1.169156")));
+    when(rateService.getLatestRate(any())).thenReturn(Optional.of(rate(today(), USD, "1.169156")));
 
     ConversionRequestDto request = new ConversionRequestDto(EUR, USD, new BigDecimal(100));
     ConversionResultDto result = service.convert(request);
@@ -63,7 +65,7 @@ public class CurrencyConverterServiceTest {
 
   @Test
   void shouldReturnInvertedRateForConversionToEUR() {
-    when(rateService.getLatestRate(any())).thenReturn(Optional.of(rate("1.169156")));
+    when(rateService.getLatestRate(any())).thenReturn(Optional.of(rate(today(), USD, "1.169156")));
 
     ConversionRequestDto request = new ConversionRequestDto(USD, EUR, new BigDecimal("15.30"));
     ConversionResultDto result = service.convert(request);
@@ -75,19 +77,15 @@ public class CurrencyConverterServiceTest {
   @Test
   void shouldLoadRateWhenNotAvailableInCache() {
     when(rateService.getLatestRate(any())).thenReturn(empty());
-    when(ratesSyncService.loadAndSaveHistoricalRates(any())).thenReturn(List.of(rate("1.169156"), rate("1.3512")));
+    when(ratesSyncService.loadAndSaveHistoricalRates(any())).thenReturn(List.of(
+        rate(today(), USD, "1.3512"),
+        rate(today(), USD, "1.169156")
+    ));
 
     ConversionRequestDto request = new ConversionRequestDto(EUR, USD, new BigDecimal(100));
     ConversionResultDto result = service.convert(request);
 
     assertEquals(new BigDecimal("1.3512"), result.conversionRate());
     assertEquals(new BigDecimal("135.12"), result.conversionResult());
-  }
-
-  private CurrencyRate rate(String rate) {
-    var currencyPairRate = new CurrencyRate();
-    currencyPairRate.setRate(new BigDecimal(rate));
-    currencyPairRate.setQuote(USD);
-    return currencyPairRate;
   }
 }
