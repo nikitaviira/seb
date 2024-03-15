@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+@import "variables";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: $background-color;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+input, button, textarea, select {
+  all: unset;
+}
