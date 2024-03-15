@@ -28,7 +28,7 @@ public class CurrencyConverterService {
   }
 
   private BigDecimal convert(BigDecimal rate, BigDecimal amount) {
-    return amount.multiply(rate).setScale(2, HALF_UP);
+    return amount.multiply(rate).setScale(2, HALF_UP).stripTrailingZeros();
   }
 
   private BigDecimal conversionRate(ConversionRequestDto conversionRequest) {
