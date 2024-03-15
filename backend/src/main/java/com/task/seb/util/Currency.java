@@ -214,7 +214,7 @@ public enum Currency {
   @JsonEnumDefaultValue UNKNOWN("");
 
   private final String fullName;
-  public static final Set<Currency> ALL_CURRENCIES = unmodifiableSet(complementOf(of(UNKNOWN)));
+  public static final Set<Currency> ALL_CURRENCIES = unmodifiableSet(complementOf(of(UNKNOWN, EUR)));
 
   Currency(String fullName) {
     this.fullName = fullName;
