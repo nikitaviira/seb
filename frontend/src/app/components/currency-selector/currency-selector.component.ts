@@ -59,8 +59,8 @@ export class CurrencySelectorComponent implements OnInit {
           currency.code.toLowerCase().startsWith(filterString.toLowerCase())
         )
       ),
-      tap((arr) => {
-        this.firstFilteredCurrency = arr[0];
+      tap((filteredCurrencies) => {
+        this.firstFilteredCurrency = filteredCurrencies[0];
       })
     );
   }
