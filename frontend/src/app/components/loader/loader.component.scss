@@ -6,7 +6,7 @@
   top: 0;
 
   .bar {
-    content: "";
+    content: '';
     display: inline;
     position: absolute;
     width: 0;
@@ -26,8 +26,19 @@
   }
 
   @keyframes loading {
-    from { left: 0; width: 0; z-index: 100; }
-    33.3333% { left: 0; width: 100%; z-index: 10; }
-    to { left: 0; width: 100%; }
+    from {
+      left: 0;
+      width: 0;
+      z-index: 100;
+    }
+    33.3333% {
+      left: 0;
+      width: 100%;
+      z-index: 10;
+    }
+    to {
+      left: 0;
+      width: 100%;
+    }
   }
 }

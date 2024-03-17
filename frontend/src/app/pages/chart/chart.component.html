@@ -13,7 +13,7 @@
         *ngIf="!loading"
         class="change-percent"
         [ngClass]="changePercentClassName()"
-        >{{ changePercent }}%</span
+        >{{ currentChangePercent }}%</span
       ><span class="period"
         >({{ chartPeriodTypeLabelMapping[selectedChartPeriod] }})</span
       >
@@ -28,12 +28,6 @@
         </div>
       }
     </div>
-    <canvas
-      baseChart
-      [type]="'line'"
-      [data]="lineChartData"
-      [legend]="false"
-      [options]="lineChartOptions">
-    </canvas>
+    <app-line-chart [chartPoints]="currentChartPoints" />
   </div>
 </div>

@@ -1,8 +1,8 @@
+import {HttpParams} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {catchError, Observable} from 'rxjs';
 
 import {ApiService} from '../api-service/api-service.service';
-import {HttpParams} from '@angular/common/http';
 
 export interface ChartPointDto {
   date: string;
@@ -29,7 +29,7 @@ export enum ChartPeriodType {
   MONTH = 'MONTH',
   YTD = 'YTD',
   YEAR = 'YEAR',
-  ALL = 'ALL'
+  ALL = 'ALL',
 }
 
 @Injectable({

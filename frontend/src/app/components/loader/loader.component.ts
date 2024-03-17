@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-loader',
@@ -10,8 +10,6 @@ import { Component } from '@angular/core';
       <div class="bar"></div>
     </div>
   `,
-  styleUrl: './loader.component.scss'
+  styleUrl: './loader.component.scss',
 })
-export class LoaderComponent {
-
-}
+export class LoaderComponent {}

@@ -1,20 +1,13 @@
-import 'chartjs-adapter-moment';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BaseChartDirective } from 'ng2-charts';
 
-import {AsyncPipe, NgClass, NgIf} from '@angular/common';
-import {Component, ViewChild} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {ChartOptions} from 'chart.js';
-import moment from 'moment';
-import {BaseChartDirective} from 'ng2-charts';
-
-import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
-import {CurrencyDto} from '../../services/currency-api/currency-api.service';
-import {
-  ChartPeriodType,
-  ChartPointDto,
-  MainApiService,
-} from '../../services/main-api/main-api.service';
+import { CurrencySelectorComponent } from '../../components/currency-selector/currency-selector.component';
+import { LineChartComponent } from '../../components/line-chart/line-chart.component';
 import { LoaderComponent } from '../../components/loader/loader.component';
+import { CurrencyDto } from '../../services/currency-api/currency-api.service';
+import { ChartPeriodType, ChartPointDto, MainApiService } from '../../services/main-api/main-api.service';
 
 @Component({
   selector: 'app-chart',
@@ -26,62 +19,13 @@ import { LoaderComponent } from '../../components/loader/loader.component';
     BaseChartDirective,
     NgClass,
     LoaderComponent,
-    CurrencySelectorComponent
+    CurrencySelectorComponent,
+    LineChartComponent,
   ],
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss',
 })
 export class ChartComponent {
-  @ViewChild(BaseChartDirective, {static: true}) chart!: BaseChartDirective;
-  public lineChartData: any = {
-    datasets: [],
-  };
-
-  public lineChartOptions: ChartOptions = {
-    scales: {
-      x: {
-        type: 'time',
-        ticks: {
-          autoSkip: true,
-          maxTicksLimit: 20,
-          maxRotation: 0,
-          color: 'black',
-        },
-        border: {
-          color: 'black',
-        },
-      },
-      y: {
-        border: {
-          color: 'black',
-        },
-        ticks: {
-          color: 'black',
-        },
-      },
-    },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          title(tooltipItem: any) {
-            return moment(tooltipItem[0].raw.x).format('MMMM DD YYYY');
-          },
-        },
-      },
-    },
-    devicePixelRatio: 1,
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    maintainAspectRatio: false,
-  };
-
   chartPeriodTypeLabelMapping: Record<ChartPeriodType, string> = {
     [ChartPeriodType.YEAR]: '1Y',
     [ChartPeriodType.YTD]: 'YTD',
@@ -90,7 +34,9 @@ export class ChartComponent {
   };
   chartPeriodTypes: ChartPeriodType[] = Object.values(ChartPeriodType);
   selectedChartPeriod: ChartPeriodType = ChartPeriodType.ALL;
-  changePercent: number | undefined;
+
+  currentChangePercent: number | undefined;
+  currentChartPoints: ChartPointDto[] = [];
 
   loading: boolean = true;
   currentCurrency!: CurrencyDto;
@@ -103,7 +49,7 @@ export class ChartComponent {
   }
 
   changePercentClassName(): string {
-    const percent = this.changePercent;
+    const percent = this.currentChangePercent;
     if (!percent || percent === 0) {
       return 'neutral';
     }
@@ -126,25 +72,8 @@ export class ChartComponent {
       .fetchHistoricalChartData(currencyCode, this.selectedChartPeriod)
       .subscribe((chartData) => {
         this.loading = false;
-        this.changePercent = Number.parseFloat(chartData.changePercent);
-        this.setDataset(chartData.chartPoints);
-
+        this.currentChangePercent = Number.parseFloat(chartData.changePercent);
+        this.currentChartPoints = chartData.chartPoints;
       });
-  }
-
-  setDataset(chartPoints: ChartPointDto[]) {
-    this.lineChartData.datasets = [
-      {
-        data: chartPoints.map((point) => ({
-          x: new Date(point.date),
-          y: Number.parseFloat(point.value),
-        })),
-        borderColor: '#45b400',
-        fill: false,
-        tension: 0.4,
-        borderWidth: 2,
-      },
-    ];
-    this.chart.render();
   }
 }
