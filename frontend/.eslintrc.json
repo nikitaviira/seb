@@ -21,6 +21,7 @@
         "@typescript-eslint/no-useless-constructor": "off",
         "prefer-destructuring": ["error", {"object": true, "array": false}],
         "import/no-extraneous-dependencies": "off",
+        "class-methods-use-this": "off",
         "import/prefer-default-export": "off",
         "import/first": "error",
         "object-curly-newline": "off",

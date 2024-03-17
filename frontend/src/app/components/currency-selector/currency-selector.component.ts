@@ -55,9 +55,7 @@ export class CurrencySelectorComponent implements OnInit {
     this.filteredCurrencies$ = currencyApiService.currencies.pipe(
       combineLatestWith(this.filter$),
       map(([currencies, filterString]) =>
-        currencies.filter((currency) =>
-          currency.code.toLowerCase().startsWith(filterString.toLowerCase())
-        )
+        this.filterCurrencies(currencies, filterString)
       ),
       tap((filteredCurrencies) => {
         this.firstFilteredCurrency = filteredCurrencies[0];
@@ -67,6 +65,18 @@ export class CurrencySelectorComponent implements OnInit {
 
   ngOnInit(): void {
     this.currencySelected.emit(this.currency);
+  }
+
+  filterCurrencies(
+    currencies: CurrencyDto[],
+    filterString: string
+  ): CurrencyDto[] {
+    const filter = filterString.toLowerCase();
+    return currencies.filter(
+      (currency) =>
+        currency.code.toLowerCase().includes(filter) ||
+        currency.fullName.toLowerCase().includes(filter)
+    );
   }
 
   onCurrencySelect(currency: CurrencyDto): void {
