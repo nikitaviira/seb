@@ -1,0 +1,33 @@
+.loader {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  left: 0;
+  top: 0;
+
+  .bar {
+    content: "";
+    display: inline;
+    position: absolute;
+    width: 0;
+    height: 100%;
+    left: 50%;
+    text-align: center;
+  }
+
+  .bar:first-child {
+    background-color: #0092e1;
+    animation: loading 3s linear infinite;
+  }
+
+  .bar:last-child {
+    background-color: white;
+    animation: loading 3s linear 1s infinite;
+  }
+
+  @keyframes loading {
+    from { left: 0; width: 0; z-index: 100; }
+    33.3333% { left: 0; width: 100%; z-index: 10; }
+    to { left: 0; width: 100%; }
+  }
+}

@@ -20,6 +20,7 @@
         "no-useless-constructor": "off",
         "@typescript-eslint/no-useless-constructor": "off",
         "prefer-destructuring": ["error", {"object": true, "array": false}],
+        "import/no-extraneous-dependencies": "off",
         "import/prefer-default-export": "off",
         "import/first": "error",
         "object-curly-newline": "off",

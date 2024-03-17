@@ -1,2 +1,39 @@
-<app-currency-selector (currencySelected)="currencySelected($event)" />
-<p>Current currency: {{ currentCurrency?.code }}</p>
+<div class="hero">
+  <div class="hero-content">
+    <p class="label">Select the currency:</p>
+    <app-currency-selector (currencySelected)="currencySelected($event)" />
+  </div>
+</div>
+<div class="chart">
+  <div class="chart-container">
+    <app-loader *ngIf="loading" />
+    <div class="chart-title">
+      <span class="title">EUR to {{ currentCurrency?.code }} chart</span
+      ><span
+        *ngIf="!loading"
+        class="change-percent"
+        [ngClass]="changePercentClassName()"
+        >{{ changePercent }}%</span
+      ><span class="period"
+        >({{ chartPeriodTypeLabelMapping[selectedChartPeriod] }})</span
+      >
+    </div>
+    <div class="period-switcher">
+      @for (chartType of chartPeriodTypes; track chartType) {
+        <div
+          class="period"
+          [ngClass]="{active: selectedChartPeriod === chartType}"
+          (click)="onChartPeriodChange(chartType)">
+          {{ chartPeriodTypeLabelMapping[chartType] }}
+        </div>
+      }
+    </div>
+    <canvas
+      baseChart
+      [type]="'line'"
+      [data]="lineChartData"
+      [legend]="false"
+      [options]="lineChartOptions">
+    </canvas>
+  </div>
+</div>

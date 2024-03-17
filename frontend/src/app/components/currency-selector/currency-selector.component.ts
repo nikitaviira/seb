@@ -1,9 +1,27 @@
-import { AsyncPipe, NgClass, NgForOf, NgIf, NgOptimizedImage, NgStyle } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { combineLatestWith, map, Observable, startWith, tap } from 'rxjs';
+import {
+  AsyncPipe,
+  NgClass,
+  NgForOf,
+  NgIf,
+  NgOptimizedImage,
+  NgStyle,
+} from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {combineLatestWith, map, Observable, startWith, tap} from 'rxjs';
 
-import { CurrencyApiService, CurrencyDto } from '../../services/currency-api/currency-api.service';
+import {
+  CurrencyApiService,
+  CurrencyDto,
+} from '../../services/currency-api/currency-api.service';
 
 @Component({
   selector: 'app-currency-selector',
@@ -18,7 +36,7 @@ import { CurrencyApiService, CurrencyDto } from '../../services/currency-api/cur
     NgOptimizedImage,
   ],
   templateUrl: './currency-selector.component.html',
-  styleUrl: './currency-selector.component.scss'
+  styleUrl: './currency-selector.component.scss',
 })
 export class CurrencySelectorComponent implements OnInit {
   @Input() currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
@@ -72,7 +90,7 @@ export class CurrencySelectorComponent implements OnInit {
   onInput(): void {
     this.currencyDropdown.nativeElement.scrollTo({
       top: 0,
-      behavior: 'instant'
+      behavior: 'instant',
     });
   }
 
