@@ -45,6 +45,7 @@ export class ChartComponent {
 
   currencySelected(currency: CurrencyDto) {
     this.currentCurrency = currency;
+    this.selectedChartPeriod = ChartPeriodType.ALL;
     this.fetchHistoricalChartData(currency.code);
   }
 
@@ -62,8 +63,10 @@ export class ChartComponent {
   }
 
   onChartPeriodChange(chartPeriodType: ChartPeriodType) {
-    this.selectedChartPeriod = chartPeriodType;
-    this.fetchHistoricalChartData(this.currentCurrency.code);
+    if (this.selectedChartPeriod !== chartPeriodType) {
+      this.selectedChartPeriod = chartPeriodType;
+      this.fetchHistoricalChartData(this.currentCurrency.code);
+    }
   }
 
   fetchHistoricalChartData(currencyCode: string) {
