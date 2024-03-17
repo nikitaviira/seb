@@ -10,7 +10,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   ViewChild,
@@ -39,7 +38,7 @@ import {
   styleUrl: './currency-selector.component.scss',
 })
 export class CurrencySelectorComponent implements OnInit {
-  @Input() currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
+  currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
   @Output() currencySelected = new EventEmitter<CurrencyDto>();
   @ViewChild('currencyInput') currencyInput!: ElementRef<HTMLInputElement>;
   @ViewChild('currencyDropdown') currencyDropdown!: ElementRef<HTMLDivElement>;

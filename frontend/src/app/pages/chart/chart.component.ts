@@ -1,13 +1,17 @@
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { BaseChartDirective } from 'ng2-charts';
+import {AsyncPipe, NgClass, NgIf} from '@angular/common';
+import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {BaseChartDirective} from 'ng2-charts';
 
-import { CurrencySelectorComponent } from '../../components/currency-selector/currency-selector.component';
-import { LineChartComponent } from '../../components/line-chart/line-chart.component';
-import { LoaderComponent } from '../../components/loader/loader.component';
-import { CurrencyDto } from '../../services/currency-api/currency-api.service';
-import { ChartPeriodType, ChartPointDto, MainApiService } from '../../services/main-api/main-api.service';
+import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
+import {LineChartComponent} from '../../components/line-chart/line-chart.component';
+import {LoaderComponent} from '../../components/loader/loader.component';
+import {CurrencyDto} from '../../services/currency-api/currency-api.service';
+import {
+  ChartPeriodType,
+  ChartPointDto,
+  MainApiService,
+} from '../../services/main-api/main-api.service';
 
 @Component({
   selector: 'app-chart',

@@ -26,12 +26,14 @@ import {ChartPointDto} from '../../services/main-api/main-api.service';
       [options]="lineChartOptions">
     </canvas>
   `,
-  styles: [`
-    :host {
-      height: 100%;
-      display: block;
-    }
-  `]
+  styles: [
+    `
+      :host {
+        height: 100%;
+        display: block;
+      }
+    `,
+  ],
 })
 export class LineChartComponent implements OnChanges {
   @ViewChild(BaseChartDirective, {static: true}) chart!: BaseChartDirective;
