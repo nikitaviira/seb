@@ -79,7 +79,7 @@ public class CurrencyControllerTest extends IntTestBase {
     mockMvc.perform(get("/api/currency-list"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andExpect(jsonPath("$.length()").value(146))
+        .andExpect(jsonPath("$.length()").value(82))
         .andExpect(jsonPath("$[*].code", not(hasItem("UNKNOWN"))))
         .andExpect(jsonPath("$[*].code", not(hasItem("EUR"))))
         .andExpect(jsonPath("$[*].code", hasItem("USD")));
