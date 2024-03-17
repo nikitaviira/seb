@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface CurrencyRateRepository extends JpaRepository<CurrencyRate, Long> {
-  List<CurrencyRate> findByQuoteAndBaseAndDateGreaterThanEqual(Currency quote, Currency base, LocalDate date);
+  List<CurrencyRate> findByQuoteAndDateGreaterThanEqual(Currency quote, LocalDate date);
   Optional<CurrencyRate> findFirstByQuoteOrderByDateDesc(Currency quote);
+  long countByQuote(Currency quote);
 }

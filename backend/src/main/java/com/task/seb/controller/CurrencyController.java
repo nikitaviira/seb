@@ -25,7 +25,7 @@ public class CurrencyController {
 
   @GetMapping("{quote}/historical-chart")
   public ChartDto historicalChart(@PathVariable Currency quote,
-                                  @RequestParam(required = false, defaultValue = "ALL") ChartType chartType) {
+                                  @RequestParam(required = false, defaultValue = "YEAR") ChartType chartType) {
     return chartService.historicalChart(quote, chartType);
   }
 

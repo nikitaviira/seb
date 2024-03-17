@@ -79,7 +79,7 @@ public class CurrencyControllerTest extends IntTestBase {
     mockMvc.perform(get("/api/currency-list"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andExpect(jsonPath("$.length()").value(153))
+        .andExpect(jsonPath("$.length()").value(146))
         .andExpect(jsonPath("$[*].code", not(hasItem("UNKNOWN"))))
         .andExpect(jsonPath("$[*].code", not(hasItem("EUR"))))
         .andExpect(jsonPath("$[*].code", hasItem("USD")));
@@ -105,18 +105,18 @@ public class CurrencyControllerTest extends IntTestBase {
     mockMvc.perform(get(endpoint))
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andExpect(jsonPath("$.chartPoints.length()").value(7))
-        .andExpect(jsonPath("$.changePercent").value("-36.84"))
-        .andExpect(jsonPath("$.chartPoints[0].date").value("2023-03-13"))
-        .andExpect(jsonPath("$.chartPoints[0].value").value("1.9"));
-
-    mockMvc.perform(get(endpoint).queryParam("chartType", "YEAR"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(APPLICATION_JSON))
         .andExpect(jsonPath("$.chartPoints.length()").value(6))
         .andExpect(jsonPath("$.changePercent").value("-33.33"))
         .andExpect(jsonPath("$.chartPoints[0].date").value("2023-03-14"))
         .andExpect(jsonPath("$.chartPoints[0].value").value("1.8"));
+
+    mockMvc.perform(get(endpoint).queryParam("chartType", "ALL"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(APPLICATION_JSON))
+        .andExpect(jsonPath("$.chartPoints.length()").value(7))
+        .andExpect(jsonPath("$.changePercent").value("-36.84"))
+        .andExpect(jsonPath("$.chartPoints[0].date").value("2023-03-13"))
+        .andExpect(jsonPath("$.chartPoints[0].value").value("1.9"));
 
     mockMvc.perform(get(endpoint).queryParam("chartType", "MONTH"))
         .andExpect(status().isOk())

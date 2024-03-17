@@ -29,7 +29,7 @@ public class ChartService {
   @Transactional
   public ChartDto historicalChart(Currency quote, ChartType chartType) {
     if (quote == UNKNOWN || quote == BASE_CURRENCY) {
-      return new ChartDto(emptyList(), ZERO);
+      return emptyChart();
     }
 
     LocalDate today = today();
@@ -37,19 +37,28 @@ public class ChartService {
     List<CurrencyRate> dbRates = fetchRates(quote, startDate);
 
     List<ChartPointDto> chartPoints = convertToChartPoints(dbRates);
-    BigDecimal percentageDifference = calculatePercentageDifference(chartPoints);
+    if (chartPoints.isEmpty()) {
+      return emptyChart();
+    }
 
+    BigDecimal percentageDifference = calculatePercentageDifference(chartPoints);
     return new ChartDto(chartPoints, percentageDifference);
   }
 
   private List<CurrencyRate> fetchRates(Currency quote, LocalDate startDate) {
-    List<CurrencyRate> dbRates = currencyRateRepository.findByQuoteAndBaseAndDateGreaterThanEqual(quote, BASE_CURRENCY, startDate);
-    if (dbRates.isEmpty()) {
-      return ratesSyncService.loadAndSaveHistoricalRates(quote).stream()
-          .filter(rate -> !rate.getDate().isBefore(startDate))
-          .toList();
+    List<CurrencyRate> dbRates = currencyRateRepository.findByQuoteAndDateGreaterThanEqual(quote, startDate);
+
+    if (!dbRates.isEmpty()) {
+      return dbRates;
     }
-    return dbRates;
+
+    if (currencyRateRepository.countByQuote(quote) > 0) {
+      return emptyList();
+    }
+
+    return ratesSyncService.loadAndSaveHistoricalRates(quote).stream()
+        .filter(rate -> !rate.getDate().isBefore(startDate))
+        .toList();
   }
 
   private List<ChartPointDto> convertToChartPoints(List<CurrencyRate> rates) {
@@ -75,6 +84,10 @@ public class ChartService {
         .divide(startValue, 6, HALF_UP)
         .multiply(new BigDecimal(100))
         .setScale(2, HALF_UP);
+  }
+
+  private ChartDto emptyChart() {
+    return new ChartDto(emptyList(), ZERO);
   }
 
   private LocalDate chartStartDate(ChartType chartType, LocalDate today) {
