@@ -1,3 +1,4 @@
+import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 import {
   AsyncPipe,
   NgClass,
@@ -33,6 +34,14 @@ import {
     ReactiveFormsModule,
     NgStyle,
     NgOptimizedImage,
+  ],
+  animations: [
+    trigger('fade', [
+      state('false', style({visibility: 'hidden', opacity: 0})),
+      state('true', style({visibility: AUTO_STYLE, opacity: AUTO_STYLE})),
+      transition('false => true', animate('150ms ease-in')),
+      transition('true => false', animate('150ms ease-out')),
+    ]),
   ],
   templateUrl: './currency-selector.component.html',
   styleUrl: './currency-selector.component.scss',

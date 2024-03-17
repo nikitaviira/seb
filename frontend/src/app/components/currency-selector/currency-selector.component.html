@@ -32,7 +32,7 @@
     </div>
 
     <img
-      *ngIf="filter.value"
+      *ngIf="isFocused"
       class="clear-button"
       ngSrc="assets/close.svg"
       height="20"
@@ -41,9 +41,9 @@
       (click)="clearQuery()" />
 
     <div
-      *ngIf="isFocused"
       #currencyDropdown
       class="currency-dropdown"
+      [@fade]="isFocused"
       (mousedown)="$event.preventDefault()">
       @for (currency of filteredCurrencies$ | async; track $index) {
         <div
