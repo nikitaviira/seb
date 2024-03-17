@@ -1,3 +1,5 @@
+@import "../../../variables";
+
 .loader {
   position: absolute;
   width: 100%;
@@ -16,7 +18,7 @@
   }
 
   .bar:first-child {
-    background-color: #0092e1;
+    background-color: $secondary-color;
     animation: loading 3s linear infinite;
   }
 
