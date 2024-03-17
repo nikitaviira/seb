@@ -1,7 +1,9 @@
-@import "variables";
+@import 'variables';
 @import '@sebgroup/fonts/css/seb-fonts.css';
+@import 'currency-flags/dist/currency-flags.css';
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -11,7 +13,8 @@ html, body {
 
 * {
   box-sizing: border-box;
-  font-family: "SEBSansSerif", "Trebuchet MS", "Trebuchet", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'SEBSansSerif', 'Trebuchet MS', 'Trebuchet', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -23,6 +26,9 @@ a {
   text-decoration: none;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   all: unset;
 }

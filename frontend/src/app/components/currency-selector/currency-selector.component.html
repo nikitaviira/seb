@@ -1,0 +1,65 @@
+<div class="currency-select-container">
+  <div class="input-container">
+    <input
+      #currencyInput
+      type="text"
+      class="currency-input"
+      placeholder="Type to search..."
+      [style.cursor]="isFocused ? 'text' : 'pointer'"
+      [formControl]="filter"
+      (keydown.enter)="onEnter()"
+      (keydown.escape)="onBlur()"
+      (focus)="onFocus()"
+      (input)="onInput()"
+      (blur)="onBlur()" />
+
+    <div
+      *ngIf="!isFocused"
+      class="currency-block selected">
+      <div
+        class="currency-flag"
+        [ngClass]="'currency-flag-' + currency.code.toLowerCase()"></div>
+      <span class="currency-info"
+      >{{ currency.code }} –
+        <span class="full-name">{{ currency.fullName }}</span></span
+      >
+      <img
+        class="arrow-down"
+        ngSrc="assets/arrow-down.svg"
+        alt="Arrow down icon"
+        height="25"
+        width="25" />
+    </div>
+
+    <img
+      *ngIf="filter.value"
+      class="clear-button"
+      ngSrc="assets/close.svg"
+      height="20"
+      width="20"
+      alt="Close icon"
+      (click)="clearQuery()" />
+
+    <div
+      *ngIf="isFocused"
+      #currencyDropdown
+      class="currency-dropdown"
+      (mousedown)="$event.preventDefault()">
+      @for (currency of filteredCurrencies$ | async; track $index) {
+        <div
+          class="currency-block dropdown"
+          (click)="onCurrencySelect(currency)">
+          <div
+            class="currency-flag"
+            [ngClass]="'currency-flag-' + currency.code.toLowerCase()"></div>
+          <span class="currency-info"
+          >{{ currency.code }} –
+            <span class="full-name">{{ currency.fullName }}</span></span
+          >
+        </div>
+      } @empty {
+        <div class="no-results">No results available</div>
+      }
+    </div>
+  </div>
+</div>

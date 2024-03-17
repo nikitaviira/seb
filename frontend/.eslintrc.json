@@ -1,47 +1,45 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "plugins": ["unused-imports", "simple-import-sort"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "airbnb-base",
         "airbnb-typescript/base",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier"
       ],
       "rules": {
-        // ESLint rules
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "off",
+        "prefer-destructuring": ["error", {"object": true, "array": false}],
         "import/prefer-default-export": "off",
         "import/first": "error",
+        "object-curly-newline": "off",
         "import/newline-after-import": "error",
         "import/no-duplicates": "error",
-        "max-len": [
-          "error",
-          120
-        ],
+        "implicit-arrow-linebreak": "off",
+        "max-len": ["error", 160],
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
-        // eslint-plugin-unused-imports rules
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "warn",
-          { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+          {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
+          }
         ],
-        // TypeScript Eslint rules
-        "@typescript-eslint/indent": [
-          "error",
-          2
-        ],
+        "@typescript-eslint/indent": ["error", 2],
         "@typescript-eslint/comma-dangle": "off",
         "@typescript-eslint/lines-between-class-members": "off",
         "@typescript-eslint/quotes": [
@@ -53,7 +51,6 @@
         ],
         "@typescript-eslint/no-shadow": "error",
         "@typescript-eslint/no-explicit-any": 0,
-        // Angular ESLint rules
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -73,12 +70,26 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ]
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
+      "rules": {
+        "@angular-eslint/template/no-duplicate-attributes": ["error"],
+        "@angular-eslint/template/prefer-self-closing-tags": ["error"],
+        "@angular-eslint/template/attributes-order": [
+          "error",
+          {
+            "alphabetical": false,
+            "order": [
+              "STRUCTURAL_DIRECTIVE",
+              "TEMPLATE_REFERENCE",
+              "ATTRIBUTE_BINDING",
+              "INPUT_BINDING",
+              "TWO_WAY_BINDING",
+              "OUTPUT_BINDING"
+            ]
+          }
+        ]
+      }
     }
   ]
 }
