@@ -43,7 +43,7 @@ export class ChartComponent {
   currentChartPoints: ChartPointDto[] = [];
 
   loading: boolean = true;
-  currentCurrency!: CurrencyDto;
+  currentCurrency: CurrencyDto | undefined;
 
   constructor(private mainApiService: MainApiService) {}
 
@@ -67,7 +67,7 @@ export class ChartComponent {
   }
 
   onChartPeriodChange(chartPeriodType: ChartPeriodType) {
-    if (this.selectedChartPeriod !== chartPeriodType) {
+    if (this.currentCurrency && this.selectedChartPeriod !== chartPeriodType) {
       this.selectedChartPeriod = chartPeriodType;
       this.fetchHistoricalChartData(this.currentCurrency.code);
     }
