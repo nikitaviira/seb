@@ -47,14 +47,20 @@ export class ConverterComponent {
   }
 
   convert(): void {
-    if (this.amountForm.valid) {
-      const body: ConversionRequestDto = {
+    if (this.canSubmitForm()) {
+      this.fetchConversionResult({
         base: this.baseCurrency.code,
         quote: this.quoteCurrency.code,
         amount: this.amount
-      };
-      this.fetchConversionResult(body);
+      });
     }
+  }
+
+  canSubmitForm() {
+    return this.amountForm.valid && (
+      this.conversionResult?.base.code !== this.baseCurrency.code ||
+      this.conversionResult?.quote.code !== this.quoteCurrency.code ||
+      this.conversionResult?.amount !== this.amount);
   }
 
   fetchConversionResult(body: ConversionRequestDto) {
