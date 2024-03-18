@@ -1,8 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import {HttpErrorResponse} from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { CurrencyApiService } from './currency-api.service';
+import {CurrencyApiService} from './currency-api.service';
 
 fdescribe('CurrencyApiService', () => {
   let service: CurrencyApiService;
@@ -11,7 +14,7 @@ fdescribe('CurrencyApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CurrencyApiService]
+      providers: [CurrencyApiService],
     });
     service = TestBed.inject(CurrencyApiService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -30,14 +33,16 @@ fdescribe('CurrencyApiService', () => {
     service.currencies.subscribe();
     service.currencies.subscribe();
 
-    // @ts-expect-error: protected access
-    const request = httpMock.expectOne(`${service.baseApiUrl}/api/currency-list`);
+    const request = httpMock.expectOne(
+      // @ts-expect-error: protected access
+      `${service.baseApiUrl}/api/currency-list`
+    );
     expect(request.request.method).toBe('GET');
   });
 
   it('on error should fetch again', () => {
     service.currencies.subscribe({
-      error: (err) => expect(err).toBeInstanceOf(HttpErrorResponse)
+      error: (err) => expect(err).toBeInstanceOf(HttpErrorResponse),
     });
 
     // @ts-expect-error: protected access
@@ -45,8 +50,10 @@ fdescribe('CurrencyApiService', () => {
 
     service.currencies.subscribe();
 
-    // @ts-expect-error: protected access
-    const request = httpMock.expectOne(`${service.baseApiUrl}/api/currency-list`);
+    const request = httpMock.expectOne(
+      // @ts-expect-error: protected access
+      `${service.baseApiUrl}/api/currency-list`
+    );
     expect(request.request.method).toBe('GET');
   });
 });

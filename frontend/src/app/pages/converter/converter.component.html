@@ -8,23 +8,25 @@
           <input
             class="amount-input"
             type="text"
-            [ngClass]="{'invalid': amountForm.invalid && (amountForm.dirty || amountForm.touched)}"
+            [ngClass]="{invalid: isFormInvalid}"
             [formControl]="amountForm" />
           <div class="input-currency">
             {{ baseCurrency.code }}
           </div>
         </div>
-        <div *ngIf="amountForm.invalid && (amountForm.dirty || amountForm.touched)" class="validation-errors">
-          <div class="validation-error">
-            Please enter a valid amount
-          </div>
+        <div
+          *ngIf="isFormInvalid"
+          class="validation-errors">
+          <div class="validation-error">Please enter a valid amount</div>
         </div>
       </div>
 
       <div class="selectors">
         <div class="selector">
           <p class="label">From:</p>
-          <app-currency-selector [currency]="baseCurrency" (currencySelected)="setBaseCurrency($event)" />
+          <app-currency-selector
+            [currency]="baseCurrency"
+            (currencySelected)="setBaseCurrency($event)" />
         </div>
 
         <div
@@ -39,23 +41,40 @@
 
         <div class="selector">
           <p class="label">To:</p>
-          <app-currency-selector [currency]="quoteCurrency" (currencySelected)="setQuoteCurrency($event)" />
+          <app-currency-selector
+            [currency]="quoteCurrency"
+            (currencySelected)="setQuoteCurrency($event)" />
         </div>
       </div>
     </div>
 
-    <div class="submit-btn" (mousedown)="convert()">
+    <div
+      class="submit-btn"
+      (mousedown)="convert()">
       Convert
     </div>
   </div>
 </div>
 <div class="conversion-result-wrapper">
-  <div *ngIf="conversionResult" class="conversion-result">
-    <p class="amount">{{ conversionResult.amount }} {{ conversionResult.base.fullName }} =</p>
-    <p class="result">{{ conversionResult.conversionResult }} {{ conversionResult.quote.fullName }}</p>
+  <div
+    *ngIf="conversionResult"
+    class="conversion-result">
+    <p class="amount">
+      {{ conversionResult.amount }} {{ conversionResult.base.fullName }} =
+    </p>
+    <p class="result">
+      {{ conversionResult.conversionResult }}
+      {{ conversionResult.quote.fullName }}
+    </p>
     <div class="rates">
-      <p class="rate">1 {{ conversionResult.base.code }} = {{ conversionResult.conversionRate }}</p>
-      <p class="rate">1 {{ conversionResult.quote.code }} = {{ conversionResult.invertedConversionRate }}</p>
+      <p class="rate">
+        1 {{ conversionResult.base.code }} =
+        {{ conversionResult.conversionRate }}
+      </p>
+      <p class="rate">
+        1 {{ conversionResult.quote.code }} =
+        {{ conversionResult.invertedConversionRate }}
+      </p>
     </div>
   </div>
 </div>

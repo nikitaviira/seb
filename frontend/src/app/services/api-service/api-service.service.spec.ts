@@ -1,4 +1,7 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 
 import {ApiService} from './api-service.service';
@@ -10,7 +13,7 @@ describe('ApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ApiService]
+      providers: [ApiService],
     });
     service = TestBed.inject(ApiService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -25,11 +28,11 @@ describe('ApiService', () => {
   });
 
   it('should send GET request to the specified path', () => {
-    const testData = { message: 'This is a test' };
+    const testData = {message: 'This is a test'};
     const path = 'test';
 
     // @ts-expect-error: protected access
-    service.get(path).subscribe(response => {
+    service.get(path).subscribe((response) => {
       expect(response).toEqual(testData);
     });
 
@@ -40,12 +43,12 @@ describe('ApiService', () => {
   });
 
   it('should send POST request to the specified path', () => {
-    const testData = { message: 'This is a test' };
+    const testData = {message: 'This is a test'};
     const path = 'test';
-    const body = { key: 'value' };
+    const body = {key: 'value'};
 
     // @ts-expect-error: protected access
-    service.post(path, body).subscribe(response => {
+    service.post(path, body).subscribe((response) => {
       expect(response).toEqual(testData);
     });
 

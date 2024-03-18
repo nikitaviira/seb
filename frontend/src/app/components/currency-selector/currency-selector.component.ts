@@ -52,7 +52,7 @@ import {
     ]),
   ],
   templateUrl: './currency-selector.component.html',
-  styleUrl: './currency-selector.component.scss'
+  styleUrl: './currency-selector.component.scss',
 })
 export class CurrencySelectorComponent implements OnInit {
   @Input() currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
