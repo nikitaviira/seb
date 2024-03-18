@@ -22,7 +22,7 @@ export class ConverterComponent {
   constructor(private mainApiService: MainApiService) {
     this.amountForm = new FormControl('1', [
       Validators.required,
-      Validators.pattern(/^\d{1,10}(\.\d{1,3})?$/),
+      Validators.pattern(/^\d{1,10}(\.\d{1,2})?$/),
     ]);
   }
 
