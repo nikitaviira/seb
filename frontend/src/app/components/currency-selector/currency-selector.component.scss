@@ -78,6 +78,10 @@
 
       .currency-info {
         margin-left: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         .full-name {
           color: #5c667b;
         }
@@ -111,7 +115,7 @@
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 900px) {
       .currency-input:focus {
         position: fixed;
         z-index: 1001;
