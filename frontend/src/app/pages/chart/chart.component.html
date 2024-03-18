@@ -1,4 +1,5 @@
 <div class="hero">
+  <app-loader *ngIf="loading" />
   <div class="hero-content">
     <p class="label">Select the currency:</p>
     <app-currency-selector (currencySelected)="currencySelected($event)" />
@@ -6,7 +7,6 @@
 </div>
 <div class="chart">
   <div class="chart-container">
-    <app-loader *ngIf="loading" />
     <div class="chart-title">
       <span class="title">EUR to {{ currentCurrency?.code }} chart</span
       ><span

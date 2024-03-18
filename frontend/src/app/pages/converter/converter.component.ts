@@ -3,13 +3,14 @@ import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
+import { LoaderComponent } from '../../components/loader/loader.component';
 import {CurrencyDto} from '../../services/currency-api/currency-api.service';
 import { ConversionRequestDto, ConversionResultDto, MainApiService } from '../../services/main-api/main-api.service';
 
 @Component({
   selector: 'app-converter',
   standalone: true,
-  imports: [CurrencySelectorComponent, NgOptimizedImage, ReactiveFormsModule, NgIf, NgClass, JsonPipe],
+  imports: [CurrencySelectorComponent, NgOptimizedImage, ReactiveFormsModule, NgIf, NgClass, JsonPipe, LoaderComponent],
   templateUrl: './converter.component.html',
   styleUrl: './converter.component.scss',
 })
@@ -18,6 +19,7 @@ export class ConverterComponent {
   baseCurrency: CurrencyDto = {code: 'EUR', fullName: 'Euro'};
   quoteCurrency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
   conversionResult: ConversionResultDto | undefined;
+  loading: boolean = false;
 
   constructor(private mainApiService: MainApiService) {
     this.amountForm = new FormControl('1', [
@@ -56,10 +58,12 @@ export class ConverterComponent {
   }
 
   fetchConversionResult(body: ConversionRequestDto) {
+    this.loading = true;
     this.mainApiService
       .fetchConversionResult(body)
       .subscribe((conversionResult) => {
         this.conversionResult = conversionResult;
+        this.loading = false;
       });
   }
 }
