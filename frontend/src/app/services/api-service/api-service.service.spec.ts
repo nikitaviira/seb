@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {ApiService} from './api-service.service';
 
-fdescribe('ApiService', () => {
+describe('ApiService', () => {
   let service: ApiService;
   let httpMock: HttpTestingController;
 
