@@ -183,5 +183,15 @@
         font-size: 16px;
       }
     }
+
+    @media (max-width: 600px) {
+      .amount {
+        font-size: 20px;
+      }
+
+      .result {
+        font-size: 30px;
+      }
+    }
   }
 }
