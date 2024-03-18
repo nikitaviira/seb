@@ -1,4 +1,6 @@
-<div class="currency-select-container">
+<div
+  class="currency-select-container"
+  [ngClass]="{disabled: isDisabled}">
   <div class="input-container">
     <input
       #currencyInput

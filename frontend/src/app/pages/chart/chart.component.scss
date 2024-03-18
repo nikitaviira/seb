@@ -9,6 +9,8 @@
   justify-content: center;
 
   .hero-content {
+    width: 500px;
+
     .label {
       color: white;
       font-size: 20px;
@@ -89,6 +91,10 @@
 @media (max-width: 600px) {
   .hero {
     height: 200px;
+
+    .hero-content {
+      width: 80%;
+    }
   }
 
   .chart {

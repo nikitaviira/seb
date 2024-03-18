@@ -1,130 +1,143 @@
 @import '../../../variables';
 
-.input-container {
-  width: fit-content;
-  position: relative;
-  cursor: pointer;
+.currency-select-container {
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.9;
 
-  .currency-input {
-    width: 350px;
-    height: 35px;
-    padding: 8px 35px 8px 15px;
-    font-size: 20px;
-    border-radius: 5px;
-    outline: none;
-    background: white;
-    box-shadow: $shadow;
-
-    &::placeholder {
-      visibility: hidden;
-    }
-
-    &:focus::placeholder {
-      visibility: visible;
-    }
-
-    &:focus {
-      border: 1px solid $secondary-color;
-    }
-  }
-
-  .currency-block {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 20px;
-    padding: 10px 10px 10px 15px;
-
-    &.dropdown:hover {
-      background-color: #f0f0f0;
-    }
-
-    &.selected {
-      padding: 0;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 15px;
-      width: 100%;
+    .input-container {
       pointer-events: none;
-    }
 
-    .arrow-down {
-      margin-left: auto;
-      margin-right: 25px;
-    }
-
-    .currency-flag {
-      width: 30px;
-      height: 20px;
-      outline: 1px solid #d7d7d7;
-    }
-
-    .currency-info {
-      margin-left: 5px;
-      .full-name {
-        color: #5c667b;
+      .currency-block .arrow-down {
+        display: none;
       }
     }
   }
 
-  .clear-button {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .currency-dropdown {
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    z-index: 1000;
+  .input-container {
     width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-    border-radius: 0 0 4px 4px;
-    background-color: #fff;
-    box-shadow: $shadow;
+    position: relative;
+    cursor: pointer;
 
-    .no-results {
-      padding: 10px 10px 10px 15px;
-    }
-  }
-
-  @media (max-width: 600px) {
     .currency-input {
-      width: 300px;
-    }
-
-    .currency-input:focus {
-      position: fixed;
-      z-index: 1001;
       width: 100%;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
+      height: 50px;
+      padding: 8px 35px 8px 15px;
+      font-size: 20px;
+      border-radius: 5px;
+      outline: none;
+      background: white;
+      box-shadow: $shadow;
+
+      &::placeholder {
+        visibility: hidden;
+      }
+
+      &:focus::placeholder {
+        visibility: visible;
+      }
+
+      &:focus {
+        outline: 2px solid $secondary-color;
+      }
     }
 
-    .currency-input:focus + .clear-button {
-      position: fixed;
-      z-index: 1002;
-      top: 25px;
+    .currency-block {
+      display: flex;
+      gap: 5px;
+      flex-direction: row;
+      align-items: center;
+      font-size: 20px;
+      padding: 10px 10px 10px 15px;
+
+      &.dropdown:hover {
+        background-color: #f0f0f0;
+      }
+
+      &.selected {
+        padding: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 15px;
+        width: 100%;
+        pointer-events: none;
+      }
+
+      .arrow-down {
+        margin-left: auto;
+        margin-right: 25px;
+      }
+
+      .currency-flag {
+        flex: none;
+        width: 30px;
+        height: 20px;
+        outline: 1px solid #d7d7d7;
+      }
+
+      .currency-info {
+        margin-left: 5px;
+        .full-name {
+          color: #5c667b;
+        }
+      }
+    }
+
+    .clear-button {
+      position: absolute;
+      top: 50%;
       right: 10px;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
     }
 
     .currency-dropdown {
-      z-index: 1000;
-      position: fixed;
-      top: 50px;
+      position: absolute;
+      top: calc(100% + 5px);
       left: 0;
-      bottom: 0;
-      right: 0;
-      max-height: 100%;
+      z-index: 1000;
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      border-radius: 0 0 4px 4px;
+      background-color: #fff;
+      box-shadow: $shadow;
+
+      .no-results {
+        padding: 10px 10px 10px 15px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .currency-input:focus {
+        position: fixed;
+        z-index: 1001;
+        width: 100%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      .currency-input:focus + .clear-button {
+        position: fixed;
+        z-index: 1002;
+        top: 25px;
+        right: 10px;
+      }
+
+      .currency-dropdown {
+        z-index: 1000;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        max-height: 100%;
+      }
     }
   }
 }

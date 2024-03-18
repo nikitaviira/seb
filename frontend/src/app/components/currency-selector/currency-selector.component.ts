@@ -1,4 +1,11 @@
-import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  AUTO_STYLE,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import {
   AsyncPipe,
   NgClass,
@@ -11,6 +18,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -44,10 +52,10 @@ import {
     ]),
   ],
   templateUrl: './currency-selector.component.html',
-  styleUrl: './currency-selector.component.scss',
+  styleUrl: './currency-selector.component.scss'
 })
 export class CurrencySelectorComponent implements OnInit {
-  currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
+  @Input() currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
   @Output() currencySelected = new EventEmitter<CurrencyDto>();
   @ViewChild('currencyInput') currencyInput!: ElementRef<HTMLInputElement>;
   @ViewChild('currencyDropdown') currencyDropdown!: ElementRef<HTMLDivElement>;
@@ -110,6 +118,10 @@ export class CurrencySelectorComponent implements OnInit {
       top: 0,
       behavior: 'instant',
     });
+  }
+
+  get isDisabled(): boolean {
+    return this.currency.code === 'EUR';
   }
 
   onFocus(): void {

@@ -3,6 +3,7 @@ import {Injectable, Injector} from '@angular/core';
 import {catchError, Observable} from 'rxjs';
 
 import {ApiService} from '../api-service/api-service.service';
+import { CurrencyDto } from '../currency-api/currency-api.service';
 
 export interface ChartPointDto {
   date: string;
@@ -15,7 +16,11 @@ export interface ChartDto {
 }
 
 export interface ConversionResultDto {
+  base: CurrencyDto;
+  quote: CurrencyDto;
+  amount: string;
   conversionRate: string;
+  invertedConversionRate: string
   conversionResult: string;
 }
 
