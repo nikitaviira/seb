@@ -29,10 +29,3 @@ rates-api:
 
 cors:
   allowed-origins: http://localhost:4200
-
-logging:
-  level:
-    com:
-      task:
-        seb:
-          com.task.seb.client.RatesApiClient: DEBUG
