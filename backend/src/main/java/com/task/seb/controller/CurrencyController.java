@@ -31,7 +31,7 @@ public class CurrencyController {
 
   @GetMapping("currency-list")
   public List<CurrencyDto> getCurrencyList() {
-    return ALL_CURRENCIES.stream().map(c -> new CurrencyDto(c, c.getFullName())).toList();
+    return ALL_CURRENCIES.stream().map(Currency::getRepresentation).toList();
   }
 
   @PostMapping("convert")

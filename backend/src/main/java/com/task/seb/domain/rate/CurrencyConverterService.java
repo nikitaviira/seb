@@ -2,6 +2,7 @@ package com.task.seb.domain.rate;
 
 import com.task.seb.dto.ConversionRequestDto;
 import com.task.seb.dto.ConversionResultDto;
+import com.task.seb.dto.CurrencyDto;
 import com.task.seb.exception.ServiceException;
 import com.task.seb.util.Currency;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
+import static com.task.seb.util.BigDecimalHelper.*;
 import static com.task.seb.util.Currency.UNKNOWN;
 import static java.math.BigDecimal.ONE;
 import static java.math.RoundingMode.HALF_UP;
@@ -23,13 +25,19 @@ public class CurrencyConverterService {
   public ConversionResultDto convert(ConversionRequestDto conversionRequest) {
     BigDecimal conversionRate = conversionRate(conversionRequest);
     return new ConversionResultDto(
-        conversionRate,
+        conversionRequest.base().getRepresentation(),
+        conversionRequest.quote().getRepresentation(),
+        conversionRequest.amount(),
+        conversionRate.setScale(PRESENTATION_SCALE, HALF_UP),
+        invertRate(conversionRate).setScale(PRESENTATION_SCALE, HALF_UP),
         convert(conversionRate, conversionRequest.amount())
     );
   }
 
   private BigDecimal convert(BigDecimal rate, BigDecimal amount) {
-    return amount.multiply(rate).setScale(2, HALF_UP);
+    BigDecimal result = amount.multiply(rate);
+    int scale = result.intValue() == 0 ? PRESENTATION_SCALE : CURRENCY_SCALE;
+    return result.setScale(scale, HALF_UP);
   }
 
   private BigDecimal conversionRate(ConversionRequestDto conversionRequest) {
@@ -64,7 +72,7 @@ public class CurrencyConverterService {
     return rateService.getLatestRate(conversionCurrency)
         .map(CurrencyRate::getRate)
         .orElseGet(() -> ratesSyncService.loadAndSaveHistoricalRates(conversionCurrency).getFirst().getRate())
-        .setScale(6, HALF_UP);
+        .setScale(CALCULATION_SCALE, HALF_UP);
   }
 
   private boolean isEurBaseCurrency(ConversionRequestDto conversionRequest) {
@@ -72,6 +80,6 @@ public class CurrencyConverterService {
   }
 
   private BigDecimal invertRate(BigDecimal rate) {
-    return ONE.divide(rate, 6, HALF_UP);
+    return ONE.divide(rate, CALCULATION_SCALE, HALF_UP);
   }
 }

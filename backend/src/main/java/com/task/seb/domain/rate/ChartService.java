@@ -12,10 +12,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
+import static com.task.seb.util.BigDecimalHelper.calculatePercentageDifference;
 import static com.task.seb.util.Currency.UNKNOWN;
 import static com.task.seb.util.DateUtil.today;
 import static java.math.BigDecimal.ZERO;
-import static java.math.RoundingMode.HALF_UP;
 import static java.time.LocalDate.EPOCH;
 import static java.util.Collections.emptyList;
 import static java.util.Comparator.comparing;
@@ -41,7 +41,7 @@ public class ChartService {
       return emptyChart();
     }
 
-    BigDecimal percentageDifference = calculatePercentageDifference(chartPoints);
+    BigDecimal percentageDifference = percentageDifference(chartPoints);
     return new ChartDto(chartPoints, percentageDifference);
   }
 
@@ -68,7 +68,7 @@ public class ChartService {
         .toList();
   }
 
-  private BigDecimal calculatePercentageDifference(List<ChartPointDto> chartPoints) {
+  private BigDecimal percentageDifference(List<ChartPointDto> chartPoints) {
     if (chartPoints.size() < 2) {
       return ZERO;
     }
@@ -77,13 +77,6 @@ public class ChartService {
     BigDecimal endValue = chartPoints.getLast().value();
 
     return startValue.compareTo(ZERO) == 0 ? ZERO : calculatePercentageDifference(startValue, endValue);
-  }
-
-  private BigDecimal calculatePercentageDifference(BigDecimal startValue, BigDecimal endValue) {
-    return endValue.subtract(startValue)
-        .divide(startValue, 6, HALF_UP)
-        .multiply(new BigDecimal(100))
-        .setScale(2, HALF_UP);
   }
 
   private ChartDto emptyChart() {

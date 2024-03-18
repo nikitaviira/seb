@@ -5,6 +5,7 @@ import com.task.seb.domain.rate.RateService;
 import com.task.seb.domain.rate.RatesSyncService;
 import com.task.seb.dto.ConversionRequestDto;
 import com.task.seb.dto.ConversionResultDto;
+import com.task.seb.dto.CurrencyDto;
 import com.task.seb.exception.ServiceException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,6 @@ import static java.math.BigDecimal.ONE;
 import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -35,6 +35,20 @@ public class CurrencyConverterServiceTest {
   private RatesSyncService ratesSyncService;
   @InjectMocks
   private CurrencyConverterService service;
+
+  @Test
+  void whenSmallConversionResult_thenRoundTo6DigitsAfterComma() {
+    when(rateService.getLatestRate(any())).thenReturn(Optional.of(rate(today(), JPY, "162.03")));
+
+    ConversionRequestDto request = new ConversionRequestDto(JPY, EUR, new BigDecimal(1));
+    ConversionResultDto result = service.convert(request);
+
+    assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("0.006172"));
+    assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("0.006172"));
+    assertThat(result.invertedConversionRate()).isEqualByComparingTo(new BigDecimal("162.03"));
+    assertThat(result.base()).isEqualTo(new CurrencyDto(JPY, "Japanese Yen"));
+    assertThat(result.quote()).isEqualTo(new CurrencyDto(EUR, "Euro"));
+  }
 
   @Test
   void shouldThrowExceptionWhenEitherBaseOrQuoteIsUnknown() {
@@ -60,8 +74,11 @@ public class CurrencyConverterServiceTest {
     ConversionRequestDto request = new ConversionRequestDto(EUR, EUR, amount);
 
     ConversionResultDto result = service.convert(request);
-    assertEquals(ONE, result.conversionRate());
+    assertThat(result.conversionRate()).isEqualByComparingTo(ONE);
     assertThat(result.conversionResult()).isEqualByComparingTo(amount);
+    assertThat(result.invertedConversionRate()).isEqualByComparingTo(ONE);
+    assertThat(result.base()).isEqualTo(new CurrencyDto(EUR, "Euro"));
+    assertThat(result.quote()).isEqualTo(new CurrencyDto(EUR, "Euro"));
   }
 
   @Test
@@ -73,6 +90,9 @@ public class CurrencyConverterServiceTest {
 
     assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("1.169156"));
     assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("116.92"));
+    assertThat(result.invertedConversionRate()).isEqualByComparingTo(new BigDecimal("0.855318"));
+    assertThat(result.base()).isEqualTo(new CurrencyDto(EUR, "Euro"));
+    assertThat(result.quote()).isEqualTo(new CurrencyDto(USD, "US Dollar"));
   }
 
   @Test
@@ -84,6 +104,9 @@ public class CurrencyConverterServiceTest {
 
     assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("0.855318"));
     assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("13.09"));
+    assertThat(result.invertedConversionRate()).isEqualByComparingTo(new BigDecimal("1.169156"));
+    assertThat(result.base()).isEqualTo(new CurrencyDto(USD, "US Dollar"));
+    assertThat(result.quote()).isEqualTo(new CurrencyDto(EUR, "Euro"));
   }
 
   @Test
@@ -99,5 +122,8 @@ public class CurrencyConverterServiceTest {
 
     assertThat(result.conversionRate()).isEqualByComparingTo(new BigDecimal("1.3512"));
     assertThat(result.conversionResult()).isEqualByComparingTo(new BigDecimal("135.12"));
+    assertThat(result.invertedConversionRate()).isEqualByComparingTo(new BigDecimal("0.740083"));
+    assertThat(result.base()).isEqualTo(new CurrencyDto(EUR, "Euro"));
+    assertThat(result.quote()).isEqualTo(new CurrencyDto(USD, "US Dollar"));
   }
 }

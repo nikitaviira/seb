@@ -13,6 +13,6 @@ public record ConversionRequestDto(
     @NotNull(message = "{field.mandatory}")
     Currency quote,
     @DecimalMin(value = "0.0", inclusive = false, message = "{field.moreThanZero}")
-    @Digits(integer = 10, fraction = 3, message = "{field.numberOutOfBounds}")
+    @Digits(integer = 10, fraction = 2, message = "{field.numberOutOfBounds}")
     BigDecimal amount
 ) {}

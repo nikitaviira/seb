@@ -1,6 +1,7 @@
 package com.task.seb.util;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.task.seb.dto.CurrencyDto;
 import lombok.Getter;
 
 import java.util.Set;
@@ -98,6 +99,10 @@ public enum Currency {
 
   private final String fullName;
   public static final Set<Currency> ALL_CURRENCIES = unmodifiableSet(complementOf(of(UNKNOWN, EUR)));
+
+  public CurrencyDto getRepresentation() {
+    return new CurrencyDto(this, fullName);
+  }
 
   Currency(String fullName) {
     this.fullName = fullName;
