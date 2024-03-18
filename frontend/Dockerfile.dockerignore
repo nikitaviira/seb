@@ -1,0 +1,8 @@
+node_modules
+.angular
+.editorconfig
+.eslintrc.json
+.gitignore
+.prettierrc.json
+Dockerfile.dockerignore
+Dockerfile
