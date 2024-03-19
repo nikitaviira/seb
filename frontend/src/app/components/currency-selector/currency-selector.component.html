@@ -40,7 +40,8 @@
       height="20"
       width="20"
       alt="Close icon"
-      (click)="clearQuery()" />
+      (mousedown)="$event.preventDefault()"
+      (click)="onBlur()" />
 
     <div
       #currencyDropdown

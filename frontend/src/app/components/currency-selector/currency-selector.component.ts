@@ -102,10 +102,6 @@ export class CurrencySelectorComponent implements OnInit {
     this.onBlur();
   }
 
-  clearQuery(): void {
-    this.filter.setValue('');
-  }
-
   onEnter(): void {
     const {firstFilteredCurrency} = this;
     if (firstFilteredCurrency) {
@@ -132,5 +128,9 @@ export class CurrencySelectorComponent implements OnInit {
     this.clearQuery();
     this.currencyInput.nativeElement.blur();
     this.isFocused = false;
+  }
+
+  clearQuery(): void {
+    this.filter.setValue('');
   }
 }
