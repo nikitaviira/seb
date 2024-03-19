@@ -1,4 +1,4 @@
-import {Plugin} from 'chart.js';
+import {Chart, Plugin} from 'chart.js';
 
 const crosshairPlugin: Plugin = {
   id: 'crosshair',
@@ -6,20 +6,23 @@ const crosshairPlugin: Plugin = {
     width: 1,
     color: '#FF4949',
   },
-  afterInit: (chart: any, args: any, opts: any) => {
-    chart.crosshair = {
+  afterInit: (chart: Chart) => {
+    Object.assign(chart, { crosshair: {
       x: 0,
       y: 0,
-    };
+    }});
   },
-  afterEvent: (chart: any, args: any) => {
+  afterEvent: (chart: Chart, args: any) => {
     const {inChartArea} = args;
     const {x, y} = args.event;
-
-    chart.crosshair = {x, y, draw: inChartArea};
+    Object.assign(chart, { crosshair: {
+      x,
+      y,
+      draw: inChartArea
+    }});
     chart.draw();
   },
-  beforeDatasetsDraw: (chart: any, args: any, opts: any) => {
+  beforeDatasetsDraw: (chart: any, _: any, opts: any) => {
     const {ctx} = chart;
     const {top, bottom} = chart.chartArea;
     const {x, draw} = chart.crosshair;

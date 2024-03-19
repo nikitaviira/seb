@@ -1,10 +1,6 @@
 import {NgClass, NgIf, NgOptimizedImage} from '@angular/common';
 import {Component} from '@angular/core';
-import {
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
@@ -89,16 +85,14 @@ export class ConverterComponent {
 
   fetchConversionResult(body: ConversionRequestDto) {
     this.loading = true;
-    this.mainApiService
-      .fetchConversionResult(body)
-      .subscribe({
-        next: (conversionResult) => {
-          this.conversionResult = conversionResult;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-        }
-      });
+    this.mainApiService.fetchConversionResult(body).subscribe({
+      next: (conversionResult) => {
+        this.conversionResult = conversionResult;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      },
+    });
   }
 }

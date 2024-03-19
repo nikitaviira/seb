@@ -8,7 +8,7 @@ import {provideToastr} from 'ngx-toastr';
 import {routes} from './app.routes';
 
 const toastConfig = {
-  preventDuplicates: true
+  preventDuplicates: true,
 };
 
 export const appConfig: ApplicationConfig = {
@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     importProvidersFrom([BrowserAnimationsModule, HttpClientModule]),
     provideCharts(withDefaultRegisterables()),
-    provideToastr(toastConfig)
+    provideToastr(toastConfig),
   ],
 };

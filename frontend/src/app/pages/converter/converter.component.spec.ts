@@ -1,14 +1,23 @@
-import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
-
-import {ConverterComponent} from './converter.component';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ConversionRequestDto, MainApiService} from '../../services/api/main-api/main-api.service';
+import {By} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {of} from 'rxjs';
+
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
-import {of} from 'rxjs';
 import {CurrencyApiService} from '../../services/api/currency-api/currency-api.service';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {By} from '@angular/platform-browser';
+import {
+  ConversionRequestDto,
+  MainApiService,
+} from '../../services/api/main-api/main-api.service';
+import {ConverterComponent} from './converter.component';
 
 describe('ConverterComponent', () => {
   let component: ConverterComponent;
@@ -26,15 +35,15 @@ describe('ConverterComponent', () => {
   const mainApiServiceMock = {
     fetchConversionResult(body: ConversionRequestDto) {
       return of({
-        base: { code: body.base, fullName: ''},
-        quote: { code: body.quote, fullName: ''},
+        base: {code: body.base, fullName: ''},
+        quote: {code: body.quote, fullName: ''},
         amount: body.amount,
         conversionRate: '1',
         invertedConversionRate: '1',
-        conversionResult: body.amount
+        conversionResult: body.amount,
       });
-    }
-  }
+    },
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -47,7 +56,7 @@ describe('ConverterComponent', () => {
       ],
       providers: [
         {provide: MainApiService, useValue: mainApiServiceMock},
-        {provide: CurrencyApiService, useValue: currencyApiServiceMock}
+        {provide: CurrencyApiService, useValue: currencyApiServiceMock},
       ],
     }).compileComponents();
   }));
@@ -62,11 +71,12 @@ describe('ConverterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('form is initialized with EUR to USD rates and amount of 1', fakeAsync(() => {
     fixture.whenStable().then(() => {
       const submitBtn = fixture.debugElement.query(By.css('.submit-btn'));
-      submitBtn.triggerEventHandler('mousedown', {target: submitBtn.nativeElement});
+      submitBtn.triggerEventHandler('mousedown', {
+        target: submitBtn.nativeElement,
+      });
       fixture.detectChanges();
       tick();
 
@@ -76,7 +86,7 @@ describe('ConverterComponent', () => {
         amount: '1',
         conversionRate: '1',
         invertedConversionRate: '1',
-        conversionResult: '1'
+        conversionResult: '1',
       });
     });
   }));
@@ -84,12 +94,16 @@ describe('ConverterComponent', () => {
   it('switcher should switch base and quote currencies', fakeAsync(() => {
     fixture.whenStable().then(() => {
       const switcherBtn = fixture.debugElement.query(By.css('.switcher'));
-      switcherBtn.triggerEventHandler('mousedown', {target: switcherBtn.nativeElement});
+      switcherBtn.triggerEventHandler('mousedown', {
+        target: switcherBtn.nativeElement,
+      });
       fixture.detectChanges();
       tick();
 
       const submitBtn = fixture.debugElement.query(By.css('.submit-btn'));
-      submitBtn.triggerEventHandler('mousedown', {target: submitBtn.nativeElement});
+      submitBtn.triggerEventHandler('mousedown', {
+        target: submitBtn.nativeElement,
+      });
       fixture.detectChanges();
       tick();
 
@@ -99,7 +113,7 @@ describe('ConverterComponent', () => {
         amount: '1',
         conversionRate: '1',
         invertedConversionRate: '1',
-        conversionResult: '1'
+        conversionResult: '1',
       });
     });
   }));
@@ -113,14 +127,19 @@ describe('ConverterComponent', () => {
       tick();
 
       const submitBtn = fixture.debugElement.query(By.css('.submit-btn'));
-      submitBtn.triggerEventHandler('mousedown', {target: submitBtn.nativeElement});
+      submitBtn.triggerEventHandler('mousedown', {
+        target: submitBtn.nativeElement,
+      });
       fixture.detectChanges();
       tick();
 
       expect(component.conversionResult).toBeUndefined();
 
-      const validationError = fixture.nativeElement.querySelector('.validation-error');
-      expect(validationError.textContent).toEqual('Please enter a valid amount');
+      const validationError =
+        fixture.nativeElement.querySelector('.validation-error');
+      expect(validationError.textContent).toEqual(
+        'Please enter a valid amount'
+      );
     });
   }));
 });

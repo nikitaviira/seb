@@ -1,10 +1,10 @@
 import {HttpParams} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
 import {catchError, Observable} from 'rxjs';
 
 import {ApiServiceBase} from '../ApiServiceBase';
 import {CurrencyDto} from '../currency-api/currency-api.service';
-import {ToastrService} from 'ngx-toastr';
 
 export interface ChartPointDto {
   date: string;
@@ -42,7 +42,10 @@ export enum ChartPeriodType {
   providedIn: 'root',
 })
 export class MainApiService extends ApiServiceBase {
-  constructor(injector: Injector, private toastService: ToastrService) {
+  constructor(
+    injector: Injector,
+    private toastService: ToastrService
+  ) {
     super(injector);
   }
 

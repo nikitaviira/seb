@@ -3,8 +3,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BaseChartDirective} from 'ng2-charts';
 
-import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LineChartComponent} from '../../components/charts/line-chart.component';
+import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
 import {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
 import {
@@ -89,7 +89,7 @@ export class ChartComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-        }
+        },
       });
   }
 }

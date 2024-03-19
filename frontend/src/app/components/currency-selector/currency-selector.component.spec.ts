@@ -5,13 +5,13 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-
-import {CurrencySelectorComponent} from './currency-selector.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {CurrencyApiService} from '../../services/api/currency-api/currency-api.service';
-import {of} from 'rxjs';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {By} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {of} from 'rxjs';
+
+import {CurrencyApiService} from '../../services/api/currency-api/currency-api.service';
+import {CurrencySelectorComponent} from './currency-selector.component';
 
 describe('CurrencySelectorComponent', () => {
   let component: CurrencySelectorComponent;
@@ -81,12 +81,12 @@ describe('CurrencySelectorComponent', () => {
       fixture.detectChanges();
       tick();
 
-      const currencies = fixture.debugElement.queryAll(
+      const currencyElements = fixture.debugElement.queryAll(
         By.css('.currency-block')
       );
-      expect(currencies).toHaveSize(1);
+      expect(currencyElements).toHaveSize(1);
 
-      const currencyElement = currencies[0];
+      const currencyElement = currencyElements[0];
       currencyElement.triggerEventHandler('click', {
         target: currencyElement.nativeElement,
       });
