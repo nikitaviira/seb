@@ -1,12 +1,6 @@
 import 'chartjs-adapter-moment';
 
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import {Component, Input, OnChanges, ViewChild} from '@angular/core';
 import {ChartOptions} from 'chart.js';
 import moment from 'moment/moment';
 import {BaseChartDirective} from 'ng2-charts';
@@ -88,11 +82,8 @@ export class LineChartComponent implements OnChanges {
     maintainAspectRatio: false,
   };
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const change = changes['chartPoints'];
-    if (change) {
-      this.setDataset(change.currentValue);
-    }
+  ngOnChanges(): void {
+    this.setDataset(this.chartPoints);
   }
 
   setDataset(chartPoints: ChartPointDto[]): void {
