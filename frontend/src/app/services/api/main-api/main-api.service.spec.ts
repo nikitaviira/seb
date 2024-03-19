@@ -4,7 +4,7 @@ import {TestBed} from '@angular/core/testing';
 import {ChartDto, ChartPeriodType, ConversionRequestDto, ConversionResultDto, MainApiService} from './main-api.service';
 
 
-fdescribe('MainApiService', () => {
+describe('MainApiService', () => {
   let service: MainApiService;
   let httpMock: HttpTestingController;
   let baseApiUrl: string;

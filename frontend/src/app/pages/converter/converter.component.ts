@@ -1,15 +1,11 @@
-import {JsonPipe, NgClass, NgIf, NgOptimizedImage} from '@angular/common';
+import {NgClass, NgIf, NgOptimizedImage} from '@angular/common';
 import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
 import {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
-import {
-  ConversionRequestDto,
-  ConversionResultDto,
-  MainApiService,
-} from '../../services/api/main-api/main-api.service';
+import {ConversionRequestDto, ConversionResultDto, MainApiService} from '../../services/api/main-api/main-api.service';
 
 @Component({
   selector: 'app-converter',
@@ -20,7 +16,6 @@ import {
     ReactiveFormsModule,
     NgIf,
     NgClass,
-    JsonPipe,
     LoaderComponent,
   ],
   templateUrl: './converter.component.html',
