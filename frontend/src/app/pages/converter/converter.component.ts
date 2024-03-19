@@ -4,12 +4,12 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
-import {CurrencyDto} from '../../services/currency-api/currency-api.service';
+import {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
 import {
   ConversionRequestDto,
   ConversionResultDto,
   MainApiService,
-} from '../../services/main-api/main-api.service';
+} from '../../services/api/main-api/main-api.service';
 
 @Component({
   selector: 'app-converter',

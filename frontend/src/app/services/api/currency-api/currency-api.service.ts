@@ -1,7 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {catchError, Observable, ReplaySubject, share} from 'rxjs';
 
-import {ApiService} from '../api-service/api-service.service';
+import {ApiServiceBase} from '../ApiServiceBase';
 
 export interface CurrencyDto {
   code: string;
@@ -11,7 +11,7 @@ export interface CurrencyDto {
 @Injectable({
   providedIn: 'root',
 })
-export class CurrencyApiService extends ApiService {
+export class CurrencyApiService extends ApiServiceBase {
   private readonly currencies$: Observable<CurrencyDto[]>;
 
   constructor(injector: Injector) {

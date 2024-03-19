@@ -2,7 +2,7 @@ import {HttpParams} from '@angular/common/http';
 import {Injectable, Injector} from '@angular/core';
 import {catchError, Observable} from 'rxjs';
 
-import {ApiService} from '../api-service/api-service.service';
+import {ApiServiceBase} from '../ApiServiceBase';
 import {CurrencyDto} from '../currency-api/currency-api.service';
 
 export interface ChartPointDto {
@@ -40,7 +40,7 @@ export enum ChartPeriodType {
 @Injectable({
   providedIn: 'root',
 })
-export class MainApiService extends ApiService {
+export class MainApiService extends ApiServiceBase {
   constructor(injector: Injector) {
     super(injector);
   }

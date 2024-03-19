@@ -1,11 +1,10 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable, Injector} from '@angular/core';
+import {Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
 
-@Injectable()
-export class ApiService {
+export class ApiServiceBase {
   private httpClient: HttpClient;
   protected baseApiUrl = environment.baseUrl;
 

@@ -11,7 +11,7 @@ import {ChartOptions} from 'chart.js';
 import moment from 'moment/moment';
 import {BaseChartDirective} from 'ng2-charts';
 
-import {ChartPointDto} from '../../services/main-api/main-api.service';
+import {ChartPointDto} from '../../services/api/main-api/main-api.service';
 
 @Component({
   selector: 'app-line-chart',

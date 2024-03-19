@@ -29,7 +29,7 @@ import {combineLatestWith, map, Observable, startWith, tap} from 'rxjs';
 import {
   CurrencyApiService,
   CurrencyDto,
-} from '../../services/currency-api/currency-api.service';
+} from '../../services/api/currency-api/currency-api.service';
 
 @Component({
   selector: 'app-currency-selector',
