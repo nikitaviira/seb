@@ -7,19 +7,23 @@ const crosshairPlugin: Plugin = {
     color: '#FF4949',
   },
   afterInit: (chart: Chart) => {
-    Object.assign(chart, { crosshair: {
-      x: 0,
-      y: 0,
-    }});
+    Object.assign(chart, {
+      crosshair: {
+        x: 0,
+        y: 0,
+      },
+    });
   },
   afterEvent: (chart: Chart, args: any) => {
     const {inChartArea} = args;
     const {x, y} = args.event;
-    Object.assign(chart, { crosshair: {
-      x,
-      y,
-      draw: inChartArea
-    }});
+    Object.assign(chart, {
+      crosshair: {
+        x,
+        y,
+        draw: inChartArea,
+      },
+    });
     chart.draw();
   },
   beforeDatasetsDraw: (chart: any, _: any, opts: any) => {
