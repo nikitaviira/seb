@@ -8,26 +8,26 @@
 <div class="chart">
   <div class="chart-container">
     <div class="chart-title">
-      <span class="title">EUR to {{ currentCurrency?.code }} chart</span
+      <span class="title">EUR to {{ currency.code }} chart</span
       ><span
         *ngIf="!loading"
         class="change-percent"
         [ngClass]="changePercentClassName()"
-        >{{ currentChangePercent }}%</span
+        >{{ changePercent }}%</span
       ><span class="period"
-        >({{ chartPeriodTypeLabelMapping[selectedChartPeriod] }})</span
+        >({{ chartPeriodTypeLabelMapping[chartPeriod] }})</span
       >
     </div>
     <div class="period-switcher">
       @for (chartType of chartPeriodTypes; track chartType) {
         <div
           class="period"
-          [ngClass]="{active: selectedChartPeriod === chartType}"
+          [ngClass]="{active: chartPeriod === chartType}"
           (click)="onChartPeriodChange(chartType)">
           {{ chartPeriodTypeLabelMapping[chartType] }}
         </div>
       }
     </div>
-    <app-line-chart [chartPoints]="currentChartPoints" />
+    <app-line-chart [chartPoints]="chartPoints" />
   </div>
 </div>

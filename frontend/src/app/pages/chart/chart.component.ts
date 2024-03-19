@@ -1,5 +1,5 @@
 import {AsyncPipe, NgClass, NgIf} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BaseChartDirective} from 'ng2-charts';
 
@@ -29,7 +29,7 @@ import {
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss',
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
   chartPeriodTypeLabelMapping: Record<ChartPeriodType, string> = {
     [ChartPeriodType.YEAR]: '1Y',
     [ChartPeriodType.YTD]: 'YTD',
@@ -37,24 +37,28 @@ export class ChartComponent {
     [ChartPeriodType.ALL]: 'ALL',
   };
   chartPeriodTypes: ChartPeriodType[] = Object.values(ChartPeriodType);
-  selectedChartPeriod: ChartPeriodType = ChartPeriodType.ALL;
 
-  currentChangePercent: number | undefined;
-  currentChartPoints: ChartPointDto[] = [];
+  chartPeriod: ChartPeriodType = ChartPeriodType.ALL;
+  currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
 
   loading: boolean = true;
-  currentCurrency: CurrencyDto | undefined;
+  changePercent: number | undefined;
+  chartPoints: ChartPointDto[] = [];
 
   constructor(private mainApiService: MainApiService) {}
 
+  ngOnInit(): void {
+    this.currencySelected(this.currency);
+  }
+
   currencySelected(currency: CurrencyDto) {
-    this.currentCurrency = currency;
-    this.selectedChartPeriod = ChartPeriodType.ALL;
+    this.currency = currency;
+    this.chartPeriod = ChartPeriodType.ALL;
     this.fetchHistoricalChartData(currency.code);
   }
 
   changePercentClassName(): string {
-    const percent = this.currentChangePercent;
+    const percent = this.changePercent;
     if (!percent || percent === 0) {
       return 'neutral';
     }
@@ -67,20 +71,20 @@ export class ChartComponent {
   }
 
   onChartPeriodChange(chartPeriodType: ChartPeriodType) {
-    if (this.currentCurrency && this.selectedChartPeriod !== chartPeriodType) {
-      this.selectedChartPeriod = chartPeriodType;
-      this.fetchHistoricalChartData(this.currentCurrency.code);
+    if (this.currency && this.chartPeriod !== chartPeriodType) {
+      this.chartPeriod = chartPeriodType;
+      this.fetchHistoricalChartData(this.currency.code);
     }
   }
 
   fetchHistoricalChartData(currencyCode: string) {
     this.loading = true;
     this.mainApiService
-      .fetchHistoricalChartData(currencyCode, this.selectedChartPeriod)
+      .fetchHistoricalChartData(currencyCode, this.chartPeriod)
       .subscribe((chartData) => {
         this.loading = false;
-        this.currentChangePercent = Number.parseFloat(chartData.changePercent);
-        this.currentChartPoints = chartData.chartPoints;
+        this.changePercent = Number.parseFloat(chartData.changePercent);
+        this.chartPoints = chartData.chartPoints;
       });
   }
 }

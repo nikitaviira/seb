@@ -54,7 +54,7 @@ import {
   templateUrl: './currency-selector.component.html',
   styleUrl: './currency-selector.component.scss',
 })
-export class CurrencySelectorComponent implements OnInit {
+export class CurrencySelectorComponent {
   @Input() currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
   @Output() currencySelected = new EventEmitter<CurrencyDto>();
   @ViewChild('currencyInput') currencyInput!: ElementRef<HTMLInputElement>;
@@ -78,10 +78,6 @@ export class CurrencySelectorComponent implements OnInit {
         this.firstFilteredCurrency = filteredCurrencies[0];
       })
     );
-  }
-
-  ngOnInit(): void {
-    this.currencySelected.emit(this.currency);
   }
 
   filterCurrencies(
