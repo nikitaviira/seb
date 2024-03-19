@@ -1,11 +1,12 @@
 import 'chartjs-adapter-moment';
 
 import {Component, Input, OnChanges, ViewChild} from '@angular/core';
-import {ChartOptions} from 'chart.js';
+import {ChartOptions, ChartType} from 'chart.js';
 import moment from 'moment/moment';
 import {BaseChartDirective} from 'ng2-charts';
 
 import {ChartPointDto} from '../../services/api/main-api/main-api.service';
+import CrosshairPlugin from './crosshairPlugin';
 
 @Component({
   selector: 'app-line-chart',
@@ -14,9 +15,10 @@ import {ChartPointDto} from '../../services/api/main-api/main-api.service';
   template: `
     <canvas
       baseChart
-      [type]="'line'"
+      [type]="chartType"
       [data]="lineChartData"
-      [legend]="false"
+      [plugins]="[crosshairPlugin]"
+      [legend]="legend"
       [options]="lineChartOptions">
     </canvas>
   `,
@@ -30,8 +32,13 @@ import {ChartPointDto} from '../../services/api/main-api/main-api.service';
   ],
 })
 export class LineChartComponent implements OnChanges {
+  protected readonly crosshairPlugin = CrosshairPlugin;
+
   @ViewChild(BaseChartDirective, {static: true}) chart!: BaseChartDirective;
   @Input() chartPoints: ChartPointDto[] = [];
+
+  chartType: ChartType = 'line';
+  legend: boolean = false;
 
   public lineChartData: any = {
     datasets: [],
@@ -61,6 +68,10 @@ export class LineChartComponent implements OnChanges {
       },
     },
     plugins: {
+      // @ts-ignore
+      crosshair: {
+        color: 'black',
+      },
       tooltip: {
         callbacks: {
           title(tooltipItem: any) {

@@ -1,4 +1,10 @@
-import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 
 import {CurrencySelectorComponent} from './currency-selector.component';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -11,21 +17,26 @@ fdescribe('CurrencySelectorComponent', () => {
   let component: CurrencySelectorComponent;
   let fixture: ComponentFixture<CurrencySelectorComponent>;
   const currencies = [
-    { code: 'USD', fullName: 'US Dollar' },
-    { code: 'JPY', fullName: 'Japanese Yen' },
-    { code: 'GBP', fullName: 'Pound Sterling' },
+    {code: 'USD', fullName: 'US Dollar'},
+    {code: 'JPY', fullName: 'Japanese Yen'},
+    {code: 'GBP', fullName: 'Pound Sterling'},
   ];
 
   const currencyApiServiceMock = {
-    currencies: of(currencies)
+    currencies: of(currencies),
   };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, ReactiveFormsModule, CurrencySelectorComponent],
-      providers: [{ provide: CurrencyApiService, useValue: currencyApiServiceMock }]
-    })
-      .compileComponents();
+      imports: [
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        CurrencySelectorComponent,
+      ],
+      providers: [
+        {provide: CurrencyApiService, useValue: currencyApiServiceMock},
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -39,20 +50,25 @@ fdescribe('CurrencySelectorComponent', () => {
   });
 
   it('should initialize with default values', () => {
-    expect(component.currency).toEqual({ code: 'USD', fullName: 'US Dollar' });
+    expect(component.currency).toEqual({code: 'USD', fullName: 'US Dollar'});
     expect(component.filter.value).toEqual('');
     expect(component.isFocused).toEqual(false);
     component.filteredCurrencies$.subscribe((filteredCurrencies) => {
       expect(filteredCurrencies).toEqual(currencies);
-      expect(component.firstFilteredCurrency).toEqual({ code: 'USD', fullName: 'US Dollar' });
-    })
+      expect(component.firstFilteredCurrency).toEqual({
+        code: 'USD',
+        fullName: 'US Dollar',
+      });
+    });
   });
 
   it('should apply disabled class if currency is EUR', () => {
-    component.currency = { code: 'EUR', fullName: 'Euro' };
+    component.currency = {code: 'EUR', fullName: 'Euro'};
     fixture.detectChanges();
 
-    const currencySelectContainer = fixture.nativeElement.querySelector('.currency-select-container');
+    const currencySelectContainer = fixture.nativeElement.querySelector(
+      '.currency-select-container'
+    );
     expect(currencySelectContainer.classList.contains('disabled')).toBeTruthy();
   });
 
@@ -61,18 +77,25 @@ fdescribe('CurrencySelectorComponent', () => {
       component.isFocused = true;
       const input = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = 'Pound';
-      input.triggerEventHandler('input', { target: input.nativeElement })
+      input.triggerEventHandler('input', {target: input.nativeElement});
       fixture.detectChanges();
       tick();
 
-      const currencies = fixture.debugElement.queryAll(By.css('.currency-block'));
+      const currencies = fixture.debugElement.queryAll(
+        By.css('.currency-block')
+      );
       expect(currencies).toHaveSize(1);
 
       const currencyElement = currencies[0];
-      currencyElement.triggerEventHandler('click', { target: currencyElement.nativeElement })
+      currencyElement.triggerEventHandler('click', {
+        target: currencyElement.nativeElement,
+      });
       tick();
 
-      expect(component.currency).toEqual({ code: 'GBP', fullName: 'Pound Sterling' });
+      expect(component.currency).toEqual({
+        code: 'GBP',
+        fullName: 'Pound Sterling',
+      });
     });
   }));
 
@@ -81,17 +104,20 @@ fdescribe('CurrencySelectorComponent', () => {
       component.isFocused = true;
       const input = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = 'JP';
-      input.triggerEventHandler('input', { target: input.nativeElement })
+      input.triggerEventHandler('input', {target: input.nativeElement});
       fixture.detectChanges();
       tick();
 
       expect(component.filter.value).toBe('JP');
 
-      input.triggerEventHandler('keydown.enter', { target: input.nativeElement })
+      input.triggerEventHandler('keydown.enter', {target: input.nativeElement});
       fixture.detectChanges();
       tick();
 
-      expect(component.currency).toEqual({ code: 'JPY', fullName: 'Japanese Yen' });
+      expect(component.currency).toEqual({
+        code: 'JPY',
+        fullName: 'Japanese Yen',
+      });
     });
   }));
 
@@ -100,17 +126,19 @@ fdescribe('CurrencySelectorComponent', () => {
       component.isFocused = true;
       const input = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = 'JP';
-      input.triggerEventHandler('input', { target: input.nativeElement })
+      input.triggerEventHandler('input', {target: input.nativeElement});
       fixture.detectChanges();
       tick();
 
       expect(component.filter.value).toBe('JP');
 
-      input.triggerEventHandler('keydown.escape', { target: input.nativeElement })
+      input.triggerEventHandler('keydown.escape', {
+        target: input.nativeElement,
+      });
       fixture.detectChanges();
       tick();
 
-      expect(component.currency).toEqual({ code: 'USD', fullName: 'US Dollar' });
+      expect(component.currency).toEqual({code: 'USD', fullName: 'US Dollar'});
       expect(component.filter.value).toBe('');
       expect(component.isFocused).toBeFalse();
     });
@@ -121,18 +149,18 @@ fdescribe('CurrencySelectorComponent', () => {
       component.isFocused = true;
       const input = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = 'JP';
-      input.triggerEventHandler('input', { target: input.nativeElement })
+      input.triggerEventHandler('input', {target: input.nativeElement});
       fixture.detectChanges();
       tick();
 
       expect(component.filter.value).toBe('JP');
 
       const cleanBtn = fixture.debugElement.query(By.css('.clear-button'));
-      cleanBtn.triggerEventHandler('click', { target: cleanBtn.nativeElement })
+      cleanBtn.triggerEventHandler('click', {target: cleanBtn.nativeElement});
       fixture.detectChanges();
       tick();
 
-      expect(component.currency).toEqual({ code: 'USD', fullName: 'US Dollar' });
+      expect(component.currency).toEqual({code: 'USD', fullName: 'US Dollar'});
       expect(component.filter.value).toBe('');
       expect(component.isFocused).toBeFalse();
     });
@@ -143,7 +171,7 @@ fdescribe('CurrencySelectorComponent', () => {
       component.isFocused = true;
       const input = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = 'random query';
-      input.triggerEventHandler('input', { target: input.nativeElement })
+      input.triggerEventHandler('input', {target: input.nativeElement});
       fixture.detectChanges();
       tick();
 

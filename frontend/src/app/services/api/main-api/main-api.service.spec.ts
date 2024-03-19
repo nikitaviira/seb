@@ -1,8 +1,16 @@
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 
-import {ChartDto, ChartPeriodType, ConversionRequestDto, ConversionResultDto, MainApiService} from './main-api.service';
-
+import {
+  ChartDto,
+  ChartPeriodType,
+  ConversionRequestDto,
+  ConversionResultDto,
+  MainApiService,
+} from './main-api.service';
 
 describe('MainApiService', () => {
   let service: MainApiService;
@@ -31,16 +39,20 @@ describe('MainApiService', () => {
   it('should call GET /historical-chart with chartPeriodType HTTP param', () => {
     const response: ChartDto = {
       chartPoints: [],
-      changePercent: '12.50'
+      changePercent: '12.50',
     };
     const currencyCode = 'USD';
     const chartPeriodType = ChartPeriodType.MONTH;
 
-    service.fetchHistoricalChartData(currencyCode, chartPeriodType).subscribe((resp) => {
-      expect(resp).toEqual(response);
-    });
+    service
+      .fetchHistoricalChartData(currencyCode, chartPeriodType)
+      .subscribe((resp) => {
+        expect(resp).toEqual(response);
+      });
 
-    const request = httpMock.expectOne(`${baseApiUrl}/api/USD/historical-chart?chartType=MONTH`);
+    const request = httpMock.expectOne(
+      `${baseApiUrl}/api/USD/historical-chart?chartType=MONTH`
+    );
     expect(request.request.method).toBe('GET');
     request.flush(response);
   });
@@ -49,22 +61,22 @@ describe('MainApiService', () => {
     const body: ConversionRequestDto = {
       base: 'USD',
       quote: 'EUR',
-      amount: '12'
+      amount: '12',
     };
 
     const response: ConversionResultDto = {
       base: {
         code: 'EUR',
-        fullName: 'Euro'
+        fullName: 'Euro',
       },
       quote: {
         code: 'USD',
-        fullName: 'US Dollar'
+        fullName: 'US Dollar',
       },
       amount: '12',
       conversionRate: '1',
       invertedConversionRate: '1',
-      conversionResult: '12'
+      conversionResult: '12',
     };
 
     service.fetchConversionResult(body).subscribe((resp) => {

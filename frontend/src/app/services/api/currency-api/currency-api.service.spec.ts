@@ -45,7 +45,9 @@ describe('CurrencyApiService', () => {
       error: (err) => expect(err).toBeInstanceOf(HttpErrorResponse),
     });
 
-    httpMock.expectOne(`${baseApiUrl}/api/currency-list`).error(new ProgressEvent(''));
+    httpMock
+      .expectOne(`${baseApiUrl}/api/currency-list`)
+      .error(new ProgressEvent(''));
 
     service.currencies.subscribe();
 
