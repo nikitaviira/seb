@@ -1,5 +1,5 @@
+<app-loader *ngIf="loading" />
 <div class="hero">
-  <app-loader *ngIf="loading" />
   <div class="hero-content">
     <p class="label">Select the currency:</p>
     <app-currency-selector (currencySelected)="currencySelected($event)" />
