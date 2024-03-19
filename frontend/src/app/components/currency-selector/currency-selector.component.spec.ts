@@ -7,13 +7,13 @@ import {
 } from '@angular/core/testing';
 
 import {CurrencySelectorComponent} from './currency-selector.component';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {CurrencyApiService} from '../../services/api/currency-api/currency-api.service';
 import {of} from 'rxjs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {By} from '@angular/platform-browser';
 
-fdescribe('CurrencySelectorComponent', () => {
+describe('CurrencySelectorComponent', () => {
   let component: CurrencySelectorComponent;
   let fixture: ComponentFixture<CurrencySelectorComponent>;
   const currencies = [
