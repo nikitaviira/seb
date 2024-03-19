@@ -81,10 +81,15 @@ export class ChartComponent implements OnInit {
     this.loading = true;
     this.mainApiService
       .fetchHistoricalChartData(currencyCode, this.chartPeriod)
-      .subscribe((chartData) => {
-        this.loading = false;
-        this.changePercent = Number.parseFloat(chartData.changePercent);
-        this.chartPoints = chartData.chartPoints;
+      .subscribe({
+        next: (chartData) => {
+          this.loading = false;
+          this.changePercent = Number.parseFloat(chartData.changePercent);
+          this.chartPoints = chartData.chartPoints;
+        },
+        error: () => {
+          this.loading = false;
+        }
       });
   }
 }

@@ -1,6 +1,10 @@
 import {NgClass, NgIf, NgOptimizedImage} from '@angular/common';
 import {Component} from '@angular/core';
-import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
@@ -35,7 +39,7 @@ export class ConverterComponent {
   constructor(private mainApiService: MainApiService) {
     this.amountForm = new FormControl('1', [
       Validators.required,
-      Validators.pattern(/^\d{1,10}(\.\d{1,2})?$/),
+      Validators.pattern(/^(?!0+(\.0+)?$)\d{1,10}(\.\d{1,2})?$/),
     ]);
   }
 
@@ -87,9 +91,14 @@ export class ConverterComponent {
     this.loading = true;
     this.mainApiService
       .fetchConversionResult(body)
-      .subscribe((conversionResult) => {
-        this.conversionResult = conversionResult;
-        this.loading = false;
+      .subscribe({
+        next: (conversionResult) => {
+          this.conversionResult = conversionResult;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+        }
       });
   }
 }

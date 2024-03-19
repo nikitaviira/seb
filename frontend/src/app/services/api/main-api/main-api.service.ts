@@ -52,20 +52,12 @@ export class MainApiService extends ApiServiceBase {
     const params = new HttpParams().set('chartType', chartPeriodType);
     return this.get<ChartDto>(`${currencyCode}/historical-chart`, {
       params,
-    }).pipe(
-      catchError((error) => {
-        throw error;
-      })
-    );
+    });
   }
 
   fetchConversionResult(
     body: ConversionRequestDto
   ): Observable<ConversionResultDto> {
-    return this.post<ConversionResultDto>('convert', body).pipe(
-      catchError((error) => {
-        throw error;
-      })
-    );
+    return this.post<ConversionResultDto>('convert', body)
   }
 }
