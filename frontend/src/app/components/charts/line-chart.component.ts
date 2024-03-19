@@ -68,7 +68,6 @@ export class LineChartComponent implements OnChanges {
       },
     },
     plugins: {
-      // @ts-ignore
       crosshair: {
         color: 'black',
       },

@@ -1,0 +1,19 @@
+diff --git a/node_modules/chart.js/dist/types/index.d.ts b/node_modules/chart.js/dist/types/index.d.ts
+index 98bdf09..a839a2c 100644
+--- a/node_modules/chart.js/dist/types/index.d.ts
++++ b/node_modules/chart.js/dist/types/index.d.ts
+@@ -2937,8 +2937,14 @@ export interface TooltipItem<TType extends ChartType> {
+   element: Element;
+ }
+ 
++export interface CrosshairPluginOptions {
++  width?: number;
++  color?: string;
++}
++
+ export interface PluginOptionsByType<TType extends ChartType> {
+   colors: ColorsPluginOptions;
++  crosshair: CrosshairPluginOptions;
+   decimation: DecimationOptions;
+   filler: FillerOptions;
+   legend: LegendOptions<TType>;
