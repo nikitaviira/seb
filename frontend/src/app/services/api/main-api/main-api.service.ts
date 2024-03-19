@@ -4,6 +4,7 @@ import {catchError, Observable} from 'rxjs';
 
 import {ApiServiceBase} from '../ApiServiceBase';
 import {CurrencyDto} from '../currency-api/currency-api.service';
+import {ToastrService} from 'ngx-toastr';
 
 export interface ChartPointDto {
   date: string;
@@ -41,7 +42,7 @@ export enum ChartPeriodType {
   providedIn: 'root',
 })
 export class MainApiService extends ApiServiceBase {
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private toastService: ToastrService) {
     super(injector);
   }
 
@@ -52,12 +53,26 @@ export class MainApiService extends ApiServiceBase {
     const params = new HttpParams().set('chartType', chartPeriodType);
     return this.get<ChartDto>(`${currencyCode}/historical-chart`, {
       params,
-    });
+    }).pipe(
+      catchError((error) => {
+        this.showErrorToast(error);
+        throw error;
+      })
+    );
   }
 
   fetchConversionResult(
     body: ConversionRequestDto
   ): Observable<ConversionResultDto> {
-    return this.post<ConversionResultDto>('convert', body)
+    return this.post<ConversionResultDto>('convert', body).pipe(
+      catchError((error) => {
+        this.showErrorToast(error);
+        throw error;
+      })
+    );
+  }
+
+  private showErrorToast(error: any) {
+    this.toastService.error(error.error?.message ?? 'Unexpected server error');
   }
 }
