@@ -1,13 +1,13 @@
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {Component} from '@angular/core';
 import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { Router, RouterModule} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 
 import {NavbarComponent} from './navbar.component';
 
-@Component({ template: '' })
+@Component({template: ''})
 class MockComponent {}
 
 describe('NavbarComponent', () => {
@@ -22,13 +22,12 @@ describe('NavbarComponent', () => {
       imports: [
         NavbarComponent,
         RouterModule.forRoot([
-          { path: 'chart', component: MockComponent },
-          { path: 'converter', component: MockComponent }
+          {path: 'chart', component: MockComponent},
+          {path: 'converter', component: MockComponent},
         ]),
-        BrowserAnimationsModule
-      ]
-    })
-      .compileComponents();
+        BrowserAnimationsModule,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

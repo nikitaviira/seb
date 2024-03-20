@@ -1,7 +1,6 @@
 import {AsyncPipe, NgClass, NgIf} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {BaseChartDirective} from 'ng2-charts';
 
 import {LineChartComponent} from '../../components/charts/line-chart.component';
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
@@ -12,16 +11,7 @@ import {ChartPeriodType, type ChartPointDto, MainApiService} from '../../service
 @Component({
   selector: 'app-chart',
   standalone: true,
-  imports: [
-    NgIf,
-    AsyncPipe,
-    FormsModule,
-    BaseChartDirective,
-    NgClass,
-    LoaderComponent,
-    CurrencySelectorComponent,
-    LineChartComponent,
-  ],
+  imports: [NgIf, AsyncPipe, FormsModule, NgClass, LoaderComponent, CurrencySelectorComponent, LineChartComponent],
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss',
 })

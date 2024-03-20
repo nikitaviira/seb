@@ -93,7 +93,7 @@ describe('MainApiService', () => {
       error: (err) => {
         expect(err).toBeInstanceOf(HttpErrorResponse);
         expect(toastSpy).toHaveBeenCalledWith('Unexpected server error');
-      }
+      },
     });
 
     httpMock.expectOne(`${baseApiUrl}/api/convert`).error(new ProgressEvent(''));
