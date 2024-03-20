@@ -30,13 +30,17 @@ import {
   styleUrl: './chart.component.scss',
 })
 export class ChartComponent implements OnInit {
-  protected readonly chartPeriodTypeLabelMapping: Record<ChartPeriodType, string> = {
+  protected readonly chartPeriodTypeLabelMapping: Record<
+    ChartPeriodType,
+    string
+  > = {
     [ChartPeriodType.YEAR]: '1Y',
     [ChartPeriodType.YTD]: 'YTD',
     [ChartPeriodType.MONTH]: '1M',
     [ChartPeriodType.ALL]: 'ALL',
   };
-  protected readonly chartPeriodTypes: ChartPeriodType[] = Object.values(ChartPeriodType);
+  protected readonly chartPeriodTypes: ChartPeriodType[] =
+    Object.values(ChartPeriodType);
 
   protected chartPeriod: ChartPeriodType = ChartPeriodType.ALL;
   protected currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};

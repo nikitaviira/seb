@@ -6,7 +6,7 @@ import {ApiServiceBase} from '../ApiServiceBase';
 export type CurrencyDto = {
   code: string;
   fullName: string;
-}
+};
 
 @Injectable({
   providedIn: 'root',

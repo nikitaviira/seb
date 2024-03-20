@@ -9,12 +9,12 @@ import type {CurrencyDto} from '../currency-api/currency-api.service';
 export type ChartPointDto = {
   readonly date: string;
   readonly value: string;
-}
+};
 
 export type ChartDto = {
   readonly chartPoints: ChartPointDto[];
   readonly changePercent: string;
-}
+};
 
 export type ConversionResultDto = {
   readonly base: CurrencyDto;
@@ -23,13 +23,13 @@ export type ConversionResultDto = {
   readonly conversionRate: string;
   readonly invertedConversionRate: string;
   readonly conversionResult: string;
-}
+};
 
 export type ConversionRequestDto = {
   readonly base: string;
   readonly quote: string;
   readonly amount: string;
-}
+};
 
 export enum ChartPeriodType {
   MONTH = 'MONTH',

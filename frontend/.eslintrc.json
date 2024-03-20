@@ -41,7 +41,7 @@
             "argsIgnorePattern": "^_"
           }
         ],
-        "@typescript-eslint/indent": ["error", 2],
+        "@typescript-eslint/indent": "off",
         "@typescript-eslint/comma-dangle": "off",
         "@typescript-eslint/lines-between-class-members": "off",
         "@typescript-eslint/quotes": [

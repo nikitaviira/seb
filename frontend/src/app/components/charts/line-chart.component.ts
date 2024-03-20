@@ -1,7 +1,7 @@
 import 'chartjs-adapter-moment';
 
 import {Component, Input, OnChanges, ViewChild} from '@angular/core';
-import {ChartData,ChartOptions, ChartType} from 'chart.js';
+import {ChartData, ChartOptions, ChartType} from 'chart.js';
 import moment from 'moment/moment';
 import {BaseChartDirective} from 'ng2-charts';
 
