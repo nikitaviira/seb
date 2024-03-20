@@ -1,5 +1,7 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
 
 import {
   type ChartDto,
@@ -12,15 +14,17 @@ import {
 describe('MainApiService', () => {
   let service: MainApiService;
   let httpMock: HttpTestingController;
+  let toastrService: ToastrService;
   let baseApiUrl: string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, ToastrModule.forRoot()],
       providers: [MainApiService],
     });
     service = TestBed.inject(MainApiService);
     httpMock = TestBed.inject(HttpTestingController);
+    toastrService = TestBed.inject(ToastrService);
     // @ts-expect-error: protected access
     baseApiUrl = service.baseApiUrl;
   });
@@ -80,5 +84,18 @@ describe('MainApiService', () => {
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(body);
     request.flush(response);
+  });
+
+  it('should show toast on error', () => {
+    const toastSpy = spyOn(toastrService, 'error');
+
+    service.fetchConversionResult({} as ConversionRequestDto).subscribe({
+      error: (err) => {
+        expect(err).toBeInstanceOf(HttpErrorResponse);
+        expect(toastSpy).toHaveBeenCalledWith('Unexpected server error');
+      }
+    });
+
+    httpMock.expectOne(`${baseApiUrl}/api/convert`).error(new ProgressEvent(''));
   });
 });
