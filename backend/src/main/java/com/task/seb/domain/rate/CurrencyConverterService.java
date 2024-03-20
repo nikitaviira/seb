@@ -2,7 +2,6 @@ package com.task.seb.domain.rate;
 
 import com.task.seb.dto.ConversionRequestDto;
 import com.task.seb.dto.ConversionResultDto;
-import com.task.seb.dto.CurrencyDto;
 import com.task.seb.exception.ServiceException;
 import com.task.seb.util.Currency;
 import lombok.RequiredArgsConstructor;
@@ -27,17 +26,15 @@ public class CurrencyConverterService {
     return new ConversionResultDto(
         conversionRequest.base().getRepresentation(),
         conversionRequest.quote().getRepresentation(),
-        conversionRequest.amount(),
-        conversionRate.setScale(PRESENTATION_SCALE, HALF_UP),
-        invertRate(conversionRate).setScale(PRESENTATION_SCALE, HALF_UP),
-        convert(conversionRate, conversionRequest.amount())
+        conversionRequest.amount().setScale(CURRENCY_SCALE, HALF_UP),
+        displayRounding(conversionRate),
+        displayRounding(invertRate(conversionRate)),
+        displayRounding(convert(conversionRate, conversionRequest.amount()))
     );
   }
 
   private BigDecimal convert(BigDecimal rate, BigDecimal amount) {
-    BigDecimal result = amount.multiply(rate);
-    int scale = result.intValue() == 0 ? PRESENTATION_SCALE : CURRENCY_SCALE;
-    return result.setScale(scale, HALF_UP);
+    return amount.multiply(rate);
   }
 
   private BigDecimal conversionRate(ConversionRequestDto conversionRequest) {

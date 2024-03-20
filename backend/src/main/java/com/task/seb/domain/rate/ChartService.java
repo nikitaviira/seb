@@ -69,14 +69,9 @@ public class ChartService {
   }
 
   private BigDecimal percentageDifference(List<ChartPointDto> chartPoints) {
-    if (chartPoints.size() < 2) {
-      return ZERO;
-    }
-
-    BigDecimal startValue = chartPoints.getFirst().value();
-    BigDecimal endValue = chartPoints.getLast().value();
-
-    return startValue.compareTo(ZERO) == 0 ? ZERO : calculatePercentageDifference(startValue, endValue);
+    return chartPoints.size() < 2
+        ? ZERO
+        : calculatePercentageDifference(chartPoints.getFirst().value(), chartPoints.getLast().value());
   }
 
   private ChartDto emptyChart() {

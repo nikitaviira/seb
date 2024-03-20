@@ -48,7 +48,7 @@ public class CurrencyControllerTest extends IntTestBase {
             .content(body)
             .contentType(APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.conversionRate").value("1.0813"))
+        .andExpect(jsonPath("$.conversionRate").value("1.08"))
         .andExpect(jsonPath("$.conversionResult").value("27.03"));
 
     String reversedBody = convertObjectToJsonString(new ConversionRequestDto(quote, EUR, new BigDecimal(25)));
@@ -108,7 +108,7 @@ public class CurrencyControllerTest extends IntTestBase {
         .andExpect(jsonPath("$.chartPoints.length()").value(6))
         .andExpect(jsonPath("$.changePercent").value("-33.33"))
         .andExpect(jsonPath("$.chartPoints[0].date").value("2023-03-14"))
-        .andExpect(jsonPath("$.chartPoints[0].value").value("1.8"));
+        .andExpect(jsonPath("$.chartPoints[0].value").value("1.80"));
 
     mockMvc.perform(get(endpoint).queryParam("chartType", "ALL"))
         .andExpect(status().isOk())
@@ -116,7 +116,7 @@ public class CurrencyControllerTest extends IntTestBase {
         .andExpect(jsonPath("$.chartPoints.length()").value(7))
         .andExpect(jsonPath("$.changePercent").value("-36.84"))
         .andExpect(jsonPath("$.chartPoints[0].date").value("2023-03-13"))
-        .andExpect(jsonPath("$.chartPoints[0].value").value("1.9"));
+        .andExpect(jsonPath("$.chartPoints[0].value").value("1.90"));
 
     mockMvc.perform(get(endpoint).queryParam("chartType", "MONTH"))
         .andExpect(status().isOk())
@@ -124,7 +124,7 @@ public class CurrencyControllerTest extends IntTestBase {
         .andExpect(jsonPath("$.chartPoints.length()").value(3))
         .andExpect(jsonPath("$.changePercent").value("-20"))
         .andExpect(jsonPath("$.chartPoints[0].date").value("2024-02-14"))
-        .andExpect(jsonPath("$.chartPoints[0].value").value("1.5"));
+        .andExpect(jsonPath("$.chartPoints[0].value").value("1.50"));
 
     mockMvc.perform(get(endpoint).queryParam("chartType", "YTD"))
         .andExpect(status().isOk())
@@ -132,6 +132,6 @@ public class CurrencyControllerTest extends IntTestBase {
         .andExpect(jsonPath("$.chartPoints.length()").value(5))
         .andExpect(jsonPath("$.changePercent").value("-29.41"))
         .andExpect(jsonPath("$.chartPoints[0].date").value("2024-01-01"))
-        .andExpect(jsonPath("$.chartPoints[0].value").value("1.7"));
+        .andExpect(jsonPath("$.chartPoints[0].value").value("1.70"));
   }
 }

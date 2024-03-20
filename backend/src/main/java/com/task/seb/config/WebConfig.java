@@ -45,7 +45,7 @@ public class WebConfig {
   private static class BigDecimalJsonSerializer extends JsonSerializer<BigDecimal> {
     @Override
     public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-      gen.writeString(value.stripTrailingZeros().toPlainString());
+      gen.writeString(value.toPlainString());
     }
   }
 
