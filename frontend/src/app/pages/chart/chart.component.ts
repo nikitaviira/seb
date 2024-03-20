@@ -47,7 +47,7 @@ export class ChartComponent implements OnInit {
     this.currencySelected(this.currency);
   }
 
-  private currencySelected(currency: CurrencyDto): void {
+  currencySelected(currency: CurrencyDto): void {
     this.currency = currency;
     this.chartPeriod = ChartPeriodType.ALL;
     this.fetchHistoricalChartData(currency.code);
