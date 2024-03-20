@@ -10,7 +10,7 @@ import {NavbarComponent} from './navbar.component';
 @Component({ template: '' })
 class MockComponent {}
 
-fdescribe('NavbarComponent', () => {
+describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
   let router: Router;
