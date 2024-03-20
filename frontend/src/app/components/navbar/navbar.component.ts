@@ -1,19 +1,7 @@
-import {
-  animate,
-  AUTO_STYLE,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
 import {NgIf, NgOptimizedImage} from '@angular/common';
 import {Component, OnDestroy} from '@angular/core';
-import {
-  NavigationStart,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import {NavigationStart, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {filter} from 'rxjs';
 
 @Component({

@@ -1,8 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 
 import {CurrencyApiService} from './currency-api.service';
@@ -45,9 +42,7 @@ describe('CurrencyApiService', () => {
       error: (err) => expect(err).toBeInstanceOf(HttpErrorResponse),
     });
 
-    httpMock
-      .expectOne(`${baseApiUrl}/api/currency-list`)
-      .error(new ProgressEvent(''));
+    httpMock.expectOne(`${baseApiUrl}/api/currency-list`).error(new ProgressEvent(''));
 
     service.currencies.subscribe();
 

@@ -53,9 +53,7 @@
   <div
     *ngIf="conversionResult"
     class="conversion-result">
-    <p class="amount">
-      {{ conversionResult.amount }} {{ conversionResult.base.fullName }} =
-    </p>
+    <p class="amount">{{ conversionResult.amount }} {{ conversionResult.base.fullName }} =</p>
     <p class="result">
       {{ conversionResult.conversionResult }}
       {{ conversionResult.quote.fullName }}

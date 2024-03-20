@@ -1,10 +1,4 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -13,10 +7,7 @@ import {of} from 'rxjs';
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
 import {CurrencyApiService} from '../../services/api/currency-api/currency-api.service';
-import {
-  ConversionRequestDto,
-  MainApiService,
-} from '../../services/api/main-api/main-api.service';
+import {ConversionRequestDto, MainApiService} from '../../services/api/main-api/main-api.service';
 import {ConverterComponent} from './converter.component';
 
 describe('ConverterComponent', () => {
@@ -138,11 +129,8 @@ describe('ConverterComponent', () => {
       // @ts-expect-error: protected access
       expect(component.conversionResult).toBeUndefined();
 
-      const validationError =
-        fixture.nativeElement.querySelector('.validation-error');
-      expect(validationError.textContent).toEqual(
-        'Please enter a valid amount'
-      );
+      const validationError = fixture.nativeElement.querySelector('.validation-error');
+      expect(validationError.textContent).toEqual('Please enter a valid amount');
     });
   }));
 });

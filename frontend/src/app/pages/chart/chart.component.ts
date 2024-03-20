@@ -7,11 +7,7 @@ import {LineChartComponent} from '../../components/charts/line-chart.component';
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
 import type {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
-import {
-  ChartPeriodType,
-  type ChartPointDto,
-  MainApiService,
-} from '../../services/api/main-api/main-api.service';
+import {ChartPeriodType, type ChartPointDto, MainApiService} from '../../services/api/main-api/main-api.service';
 
 @Component({
   selector: 'app-chart',
@@ -30,17 +26,13 @@ import {
   styleUrl: './chart.component.scss',
 })
 export class ChartComponent implements OnInit {
-  protected readonly chartPeriodTypeLabelMapping: Record<
-    ChartPeriodType,
-    string
-  > = {
+  protected readonly chartPeriodTypeLabelMapping: Record<ChartPeriodType, string> = {
     [ChartPeriodType.YEAR]: '1Y',
     [ChartPeriodType.YTD]: 'YTD',
     [ChartPeriodType.MONTH]: '1M',
     [ChartPeriodType.ALL]: 'ALL',
   };
-  protected readonly chartPeriodTypes: ChartPeriodType[] =
-    Object.values(ChartPeriodType);
+  protected readonly chartPeriodTypes: ChartPeriodType[] = Object.values(ChartPeriodType);
 
   protected chartPeriod: ChartPeriodType = ChartPeriodType.ALL;
   protected currency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
@@ -55,7 +47,7 @@ export class ChartComponent implements OnInit {
     this.currencySelected(this.currency);
   }
 
-  currencySelected(currency: CurrencyDto): void {
+  private currencySelected(currency: CurrencyDto): void {
     this.currency = currency;
     this.chartPeriod = ChartPeriodType.ALL;
     this.fetchHistoricalChartData(currency.code);
@@ -81,19 +73,17 @@ export class ChartComponent implements OnInit {
     }
   }
 
-  fetchHistoricalChartData(currencyCode: string): void {
+  private fetchHistoricalChartData(currencyCode: string): void {
     this.loading = true;
-    this.mainApiService
-      .fetchHistoricalChartData(currencyCode, this.chartPeriod)
-      .subscribe({
-        next: (chartData) => {
-          this.loading = false;
-          this.changePercent = Number.parseFloat(chartData.changePercent);
-          this.chartPoints = chartData.chartPoints;
-        },
-        error: () => {
-          this.loading = false;
-        },
-      });
+    this.mainApiService.fetchHistoricalChartData(currencyCode, this.chartPeriod).subscribe({
+      next: (chartData) => {
+        this.loading = false;
+        this.changePercent = Number.parseFloat(chartData.changePercent);
+        this.chartPoints = chartData.chartPoints;
+      },
+      error: () => {
+        this.loading = false;
+      },
+    });
   }
 }

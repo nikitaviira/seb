@@ -17,10 +17,7 @@ const crosshairPlugin: Plugin = {
   },
 
   /* eslint-disable no-param-reassign */
-  afterEvent: (
-    chart: Chart,
-    args: {event: ChartEvent; inChartArea: boolean}
-  ) => {
+  afterEvent: (chart: Chart, args: {event: ChartEvent; inChartArea: boolean}) => {
     const {inChartArea} = args;
     const {x, y} = args.event;
     chart.crosshair = {

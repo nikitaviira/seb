@@ -49,10 +49,7 @@ export class MainApiService extends ApiServiceBase {
     super(injector);
   }
 
-  fetchHistoricalChartData(
-    currencyCode: string,
-    chartPeriodType: ChartPeriodType
-  ): Observable<ChartDto> {
+  fetchHistoricalChartData(currencyCode: string, chartPeriodType: ChartPeriodType): Observable<ChartDto> {
     const params = new HttpParams().set('chartType', chartPeriodType);
     return this.get<ChartDto>(`${currencyCode}/historical-chart`, {
       params,
@@ -64,9 +61,7 @@ export class MainApiService extends ApiServiceBase {
     );
   }
 
-  fetchConversionResult(
-    body: ConversionRequestDto
-  ): Observable<ConversionResultDto> {
+  fetchConversionResult(body: ConversionRequestDto): Observable<ConversionResultDto> {
     return this.post<ConversionResultDto>('convert', body).pipe(
       catchError((error) => {
         this.showErrorToast(error);

@@ -1,10 +1,4 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -28,14 +22,8 @@ describe('CurrencySelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        CurrencySelectorComponent,
-      ],
-      providers: [
-        {provide: CurrencyApiService, useValue: currencyApiServiceMock},
-      ],
+      imports: [BrowserAnimationsModule, ReactiveFormsModule, CurrencySelectorComponent],
+      providers: [{provide: CurrencyApiService, useValue: currencyApiServiceMock}],
     }).compileComponents();
   }));
 
@@ -66,9 +54,7 @@ describe('CurrencySelectorComponent', () => {
     component.currency = {code: 'EUR', fullName: 'Euro'};
     fixture.detectChanges();
 
-    const currencySelectContainer = fixture.nativeElement.querySelector(
-      '.currency-select-container'
-    );
+    const currencySelectContainer = fixture.nativeElement.querySelector('.currency-select-container');
     expect(currencySelectContainer.classList.contains('disabled')).toBeTruthy();
   });
 
@@ -81,9 +67,7 @@ describe('CurrencySelectorComponent', () => {
       fixture.detectChanges();
       tick();
 
-      const currencyElements = fixture.debugElement.queryAll(
-        By.css('.currency-block')
-      );
+      const currencyElements = fixture.debugElement.queryAll(By.css('.currency-block'));
       expect(currencyElements).toHaveSize(1);
 
       const currencyElement = currencyElements[0];

@@ -14,9 +14,7 @@
         class="change-percent"
         [ngClass]="changePercentClassName()"
         >{{ changePercent }}%</span
-      ><span class="period"
-        >({{ chartPeriodTypeLabelMapping[chartPeriod] }})</span
-      >
+      ><span class="period">({{ chartPeriodTypeLabelMapping[chartPeriod] }})</span>
     </div>
     <div class="period-switcher">
       @for (chartType of chartPeriodTypes; track chartType) {

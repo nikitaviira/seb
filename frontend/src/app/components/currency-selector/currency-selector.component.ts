@@ -1,47 +1,15 @@
-import {
-  animate,
-  AUTO_STYLE,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
-  AsyncPipe,
-  NgClass,
-  NgForOf,
-  NgIf,
-  NgOptimizedImage,
-  NgStyle,
-} from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
+import {AsyncPipe, NgClass, NgForOf, NgIf, NgOptimizedImage, NgStyle} from '@angular/common';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {combineLatestWith, map, Observable, startWith, tap} from 'rxjs';
 
-import {
-  CurrencyApiService,
-  type CurrencyDto,
-} from '../../services/api/currency-api/currency-api.service';
+import {CurrencyApiService, type CurrencyDto} from '../../services/api/currency-api/currency-api.service';
 
 @Component({
   selector: 'app-currency-selector',
   standalone: true,
-  imports: [
-    NgForOf,
-    AsyncPipe,
-    NgClass,
-    NgIf,
-    ReactiveFormsModule,
-    NgStyle,
-    NgOptimizedImage,
-  ],
+  imports: [NgForOf, AsyncPipe, NgClass, NgIf, ReactiveFormsModule, NgStyle, NgOptimizedImage],
   animations: [
     trigger('fade', [
       state('false', style({visibility: 'hidden', opacity: 0})),
@@ -70,24 +38,17 @@ export class CurrencySelectorComponent {
     this.filter$ = this.filter.valueChanges.pipe(startWith(''));
     this.filteredCurrencies$ = currencyApiService.currencies.pipe(
       combineLatestWith(this.filter$),
-      map(([currencies, filterString]) =>
-        this.filterCurrencies(currencies, filterString)
-      ),
+      map(([currencies, filterString]) => this.filterCurrencies(currencies, filterString)),
       tap((filteredCurrencies) => {
         this.firstFilteredCurrency = filteredCurrencies[0];
       })
     );
   }
 
-  filterCurrencies(
-    currencies: CurrencyDto[],
-    filterString: string
-  ): CurrencyDto[] {
+  private filterCurrencies(currencies: CurrencyDto[], filterString: string): CurrencyDto[] {
     const filter = filterString.toLowerCase();
     return currencies.filter(
-      (currency) =>
-        currency.code.toLowerCase().includes(filter) ||
-        currency.fullName.toLowerCase().includes(filter)
+      (currency) => currency.code.toLowerCase().includes(filter) || currency.fullName.toLowerCase().includes(filter)
     );
   }
 
@@ -125,7 +86,7 @@ export class CurrencySelectorComponent {
     this.isFocused = false;
   }
 
-  clearQuery(): void {
+  private clearQuery(): void {
     this.filter.setValue('');
   }
 }

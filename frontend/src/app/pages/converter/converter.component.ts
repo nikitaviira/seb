@@ -5,23 +5,12 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
 import type {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
-import {
-  ConversionRequestDto,
-  ConversionResultDto,
-  MainApiService,
-} from '../../services/api/main-api/main-api.service';
+import {ConversionRequestDto, ConversionResultDto, MainApiService} from '../../services/api/main-api/main-api.service';
 
 @Component({
   selector: 'app-converter',
   standalone: true,
-  imports: [
-    CurrencySelectorComponent,
-    NgOptimizedImage,
-    ReactiveFormsModule,
-    NgIf,
-    NgClass,
-    LoaderComponent,
-  ],
+  imports: [CurrencySelectorComponent, NgOptimizedImage, ReactiveFormsModule, NgIf, NgClass, LoaderComponent],
   templateUrl: './converter.component.html',
   styleUrl: './converter.component.scss',
 })
@@ -48,10 +37,7 @@ export class ConverterComponent {
   }
 
   get isFormInvalid(): boolean {
-    return (
-      this.amountForm.invalid &&
-      (this.amountForm.dirty || this.amountForm.touched)
-    );
+    return this.amountForm.invalid && (this.amountForm.dirty || this.amountForm.touched);
   }
 
   get amount(): string {
@@ -74,7 +60,7 @@ export class ConverterComponent {
     }
   }
 
-  canSubmitForm(): boolean {
+  private canSubmitForm(): boolean {
     return (
       this.amountForm.valid &&
       (this.conversionResult?.base.code !== this.baseCurrency.code ||
@@ -83,7 +69,7 @@ export class ConverterComponent {
     );
   }
 
-  fetchConversionResult(body: ConversionRequestDto): void {
+  private fetchConversionResult(body: ConversionRequestDto): void {
     this.loading = true;
     this.mainApiService.fetchConversionResult(body).subscribe({
       next: (conversionResult) => {

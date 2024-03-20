@@ -1,7 +1,4 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 
 import {
@@ -44,15 +41,11 @@ describe('MainApiService', () => {
     const currencyCode = 'USD';
     const chartPeriodType = ChartPeriodType.MONTH;
 
-    service
-      .fetchHistoricalChartData(currencyCode, chartPeriodType)
-      .subscribe((resp) => {
-        expect(resp).toEqual(response);
-      });
+    service.fetchHistoricalChartData(currencyCode, chartPeriodType).subscribe((resp) => {
+      expect(resp).toEqual(response);
+    });
 
-    const request = httpMock.expectOne(
-      `${baseApiUrl}/api/USD/historical-chart?chartType=MONTH`
-    );
+    const request = httpMock.expectOne(`${baseApiUrl}/api/USD/historical-chart?chartType=MONTH`);
     expect(request.request.method).toBe('GET');
     request.flush(response);
   });

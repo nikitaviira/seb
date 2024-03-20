@@ -12,22 +12,11 @@ export class ApiServiceBase {
     this.httpClient = injector.get(HttpClient);
   }
 
-  protected get<T>(
-    path: string,
-    options: {[param: string]: unknown} = {}
-  ): Observable<T> {
+  protected get<T>(path: string, options: {[param: string]: unknown} = {}): Observable<T> {
     return this.httpClient.get<T>(`${this.baseApiUrl}/api/${path}`, options);
   }
 
-  protected post<T>(
-    path: string,
-    body: any,
-    options: {[param: string]: unknown} = {}
-  ): Observable<T> {
-    return this.httpClient.post<T>(
-      `${this.baseApiUrl}/api/${path}`,
-      body,
-      options
-    );
+  protected post<T>(path: string, body: any, options: {[param: string]: unknown} = {}): Observable<T> {
+    return this.httpClient.post<T>(`${this.baseApiUrl}/api/${path}`, body, options);
   }
 }
