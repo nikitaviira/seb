@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.task.seb.domain.rate.CurrencyRate.BASE_CURRENCY;
 import static com.task.seb.util.BigDecimalHelper.calculatePercentageDifference;
+import static com.task.seb.util.BigDecimalHelper.displayRounding;
 import static com.task.seb.util.Currency.UNKNOWN;
 import static com.task.seb.util.DateUtil.today;
 import static java.math.BigDecimal.ZERO;
@@ -64,7 +65,7 @@ public class ChartService {
   private List<ChartPointDto> convertToChartPoints(List<CurrencyRate> rates) {
     return rates.stream()
         .sorted(comparing(CurrencyRate::getDate))
-        .map(rate -> new ChartPointDto(rate.getDate(), rate.getRate()))
+        .map(rate -> new ChartPointDto(rate.getDate(), displayRounding(rate.getRate())))
         .toList();
   }
 

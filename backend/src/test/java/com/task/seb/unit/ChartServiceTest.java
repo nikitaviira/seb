@@ -148,10 +148,10 @@ public class ChartServiceTest {
 
     assertEquals(result.changePercent(), new BigDecimal("46.15"));
     assertThat(result.chartPoints()).containsExactly(
-        new ChartPointDto(LocalDate.of(2024, 3, 9), new BigDecimal("1.30")),
-        new ChartPointDto(LocalDate.of(2024, 3, 11), new BigDecimal("1.50")),
-        new ChartPointDto(LocalDate.of(2024, 3, 13), new BigDecimal("1.70")),
-        new ChartPointDto(LocalDate.of(2024, 3, 14), new BigDecimal("1.90"))
+        new ChartPointDto(LocalDate.of(2024, 3, 9), new BigDecimal("1.3")),
+        new ChartPointDto(LocalDate.of(2024, 3, 11), new BigDecimal("1.5")),
+        new ChartPointDto(LocalDate.of(2024, 3, 13), new BigDecimal("1.7")),
+        new ChartPointDto(LocalDate.of(2024, 3, 14), new BigDecimal("1.9"))
     );
   }
 }
