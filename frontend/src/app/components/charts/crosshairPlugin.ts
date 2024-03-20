@@ -1,4 +1,5 @@
 import {Chart, Plugin} from 'chart.js';
+import {ChartEvent} from 'chart.js/dist/types';
 
 const crosshairPlugin: Plugin = {
   id: 'crosshair',
@@ -6,31 +7,32 @@ const crosshairPlugin: Plugin = {
     width: 1,
     color: '#FF4949',
   },
+
+  /* eslint-disable no-param-reassign */
   afterInit: (chart: Chart) => {
-    Object.assign(chart, {
-      crosshair: {
-        x: 0,
-        y: 0,
-      },
-    });
+    chart.crosshair = {
+      x: 0,
+      y: 0
+    };
   },
-  afterEvent: (chart: Chart, args: any) => {
+
+  /* eslint-disable no-param-reassign */
+  afterEvent: (chart: Chart, args: { event: ChartEvent, inChartArea: boolean }) => {
     const {inChartArea} = args;
     const {x, y} = args.event;
-    Object.assign(chart, {
-      crosshair: {
-        x,
-        y,
-        draw: inChartArea,
-      },
-    });
+    chart.crosshair = {
+      x,
+      y,
+      draw: inChartArea,
+    };
     chart.draw();
   },
-  beforeDatasetsDraw: (chart: any, _: any, opts: any) => {
+
+  beforeDatasetsDraw: (chart: Chart, _: any, opts: any) => {
     const {ctx} = chart;
     const {top, bottom} = chart.chartArea;
     const {x, draw} = chart.crosshair;
-    if (!draw) return;
+    if (!draw || !x) return;
 
     ctx.save();
 

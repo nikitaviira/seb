@@ -27,7 +27,7 @@ import {combineLatestWith, map, Observable, startWith, tap} from 'rxjs';
 
 import {
   CurrencyApiService,
-  CurrencyDto,
+  type CurrencyDto,
 } from '../../services/api/currency-api/currency-api.service';
 
 @Component({

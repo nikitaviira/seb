@@ -1,7 +1,7 @@
 import 'chartjs-adapter-moment';
 
 import {Component, Input, OnChanges, ViewChild} from '@angular/core';
-import {ChartOptions, ChartType} from 'chart.js';
+import {ChartData,ChartOptions, ChartType} from 'chart.js';
 import moment from 'moment/moment';
 import {BaseChartDirective} from 'ng2-charts';
 
@@ -32,19 +32,18 @@ import CrosshairPlugin from './crosshairPlugin';
   ],
 })
 export class LineChartComponent implements OnChanges {
-  protected readonly crosshairPlugin = CrosshairPlugin;
-
   @ViewChild(BaseChartDirective, {static: true}) chart!: BaseChartDirective;
   @Input() chartPoints: ChartPointDto[] = [];
 
-  chartType: ChartType = 'line';
-  legend: boolean = false;
+  protected readonly crosshairPlugin = CrosshairPlugin;
+  protected readonly chartType: ChartType = 'line';
+  protected readonly legend: boolean = false;
 
-  public lineChartData: any = {
+  protected readonly lineChartData: ChartData<'line'> = {
     datasets: [],
   };
 
-  public lineChartOptions: ChartOptions = {
+  protected readonly lineChartOptions: ChartOptions = {
     scales: {
       x: {
         type: 'time',
@@ -96,11 +95,11 @@ export class LineChartComponent implements OnChanges {
     this.setDataset(this.chartPoints);
   }
 
-  setDataset(chartPoints: ChartPointDto[]): void {
+  private setDataset(chartPoints: ChartPointDto[]): void {
     this.lineChartData.datasets = [
       {
         data: chartPoints.map((point) => ({
-          x: new Date(point.date),
+          x: Number(new Date(point.date)),
           y: Number.parseFloat(point.value),
         })),
         borderColor: '#45b400',

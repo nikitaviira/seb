@@ -3,7 +3,7 @@ import {catchError, Observable, ReplaySubject, share} from 'rxjs';
 
 import {ApiServiceBase} from '../ApiServiceBase';
 
-export interface CurrencyDto {
+export type CurrencyDto = {
   code: string;
   fullName: string;
 }

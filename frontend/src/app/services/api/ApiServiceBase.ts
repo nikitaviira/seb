@@ -5,8 +5,8 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 
 export class ApiServiceBase {
-  private httpClient: HttpClient;
-  protected baseApiUrl = environment.baseUrl;
+  private readonly httpClient: HttpClient;
+  private readonly baseApiUrl = environment.baseUrl;
 
   constructor(protected injector: Injector) {
     this.httpClient = injector.get(HttpClient);

@@ -32,11 +32,11 @@ import {filter} from 'rxjs';
   ],
 })
 export class NavbarComponent implements OnDestroy {
-  collapsed: boolean = true;
+  protected collapsed: boolean = true;
 
   constructor(private router: Router) {}
 
-  private sub = this.router.events
+  private redirectListener = this.router.events
     .pipe(filter((event) => event instanceof NavigationStart))
     .subscribe(() => {
       if (!this.collapsed) {
@@ -44,11 +44,11 @@ export class NavbarComponent implements OnDestroy {
       }
     });
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  ngOnDestroy(): void {
+    this.redirectListener.unsubscribe();
   }
 
-  toggleCollapse() {
+  toggleCollapse(): void {
     this.collapsed = !this.collapsed;
   }
 }

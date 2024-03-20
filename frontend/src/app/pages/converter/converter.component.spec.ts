@@ -80,6 +80,7 @@ describe('ConverterComponent', () => {
       fixture.detectChanges();
       tick();
 
+      // @ts-expect-error: protected access
       expect(component.conversionResult).toEqual({
         base: {code: 'EUR', fullName: ''},
         quote: {code: 'USD', fullName: ''},
@@ -107,6 +108,7 @@ describe('ConverterComponent', () => {
       fixture.detectChanges();
       tick();
 
+      // @ts-expect-error: protected access
       expect(component.conversionResult).toEqual({
         base: {code: 'USD', fullName: ''},
         quote: {code: 'EUR', fullName: ''},
@@ -133,6 +135,7 @@ describe('ConverterComponent', () => {
       fixture.detectChanges();
       tick();
 
+      // @ts-expect-error: protected access
       expect(component.conversionResult).toBeUndefined();
 
       const validationError =

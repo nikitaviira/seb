@@ -4,7 +4,7 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {CurrencySelectorComponent} from '../../components/currency-selector/currency-selector.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
-import {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
+import type {CurrencyDto} from '../../services/api/currency-api/currency-api.service';
 import {
   ConversionRequestDto,
   ConversionResultDto,
@@ -26,11 +26,11 @@ import {
   styleUrl: './converter.component.scss',
 })
 export class ConverterComponent {
-  amountForm: FormControl;
-  baseCurrency: CurrencyDto = {code: 'EUR', fullName: 'Euro'};
-  quoteCurrency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
-  conversionResult: ConversionResultDto | undefined;
-  loading: boolean = false;
+  protected readonly amountForm: FormControl;
+  protected baseCurrency: CurrencyDto = {code: 'EUR', fullName: 'Euro'};
+  protected quoteCurrency: CurrencyDto = {code: 'USD', fullName: 'US Dollar'};
+  protected conversionResult: ConversionResultDto | undefined;
+  protected loading: boolean = false;
 
   constructor(private mainApiService: MainApiService) {
     this.amountForm = new FormControl('1', [
@@ -47,7 +47,7 @@ export class ConverterComponent {
     this.quoteCurrency = quoteCurrency;
   }
 
-  get isFormInvalid() {
+  get isFormInvalid(): boolean {
     return (
       this.amountForm.invalid &&
       (this.amountForm.dirty || this.amountForm.touched)
@@ -74,7 +74,7 @@ export class ConverterComponent {
     }
   }
 
-  canSubmitForm() {
+  canSubmitForm(): boolean {
     return (
       this.amountForm.valid &&
       (this.conversionResult?.base.code !== this.baseCurrency.code ||
@@ -83,7 +83,7 @@ export class ConverterComponent {
     );
   }
 
-  fetchConversionResult(body: ConversionRequestDto) {
+  fetchConversionResult(body: ConversionRequestDto): void {
     this.loading = true;
     this.mainApiService.fetchConversionResult(body).subscribe({
       next: (conversionResult) => {

@@ -4,31 +4,31 @@ import {ToastrService} from 'ngx-toastr';
 import {catchError, Observable} from 'rxjs';
 
 import {ApiServiceBase} from '../ApiServiceBase';
-import {CurrencyDto} from '../currency-api/currency-api.service';
+import type {CurrencyDto} from '../currency-api/currency-api.service';
 
-export interface ChartPointDto {
-  date: string;
-  value: string;
+export type ChartPointDto = {
+  readonly date: string;
+  readonly value: string;
 }
 
-export interface ChartDto {
-  chartPoints: ChartPointDto[];
-  changePercent: string;
+export type ChartDto = {
+  readonly chartPoints: ChartPointDto[];
+  readonly changePercent: string;
 }
 
-export interface ConversionResultDto {
-  base: CurrencyDto;
-  quote: CurrencyDto;
-  amount: string;
-  conversionRate: string;
-  invertedConversionRate: string;
-  conversionResult: string;
+export type ConversionResultDto = {
+  readonly base: CurrencyDto;
+  readonly quote: CurrencyDto;
+  readonly amount: string;
+  readonly conversionRate: string;
+  readonly invertedConversionRate: string;
+  readonly conversionResult: string;
 }
 
-export interface ConversionRequestDto {
-  base: string;
-  quote: string;
-  amount: string;
+export type ConversionRequestDto = {
+  readonly base: string;
+  readonly quote: string;
+  readonly amount: string;
 }
 
 export enum ChartPeriodType {

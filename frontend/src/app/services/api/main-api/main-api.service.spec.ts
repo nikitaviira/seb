@@ -5,10 +5,10 @@ import {
 import {TestBed} from '@angular/core/testing';
 
 import {
-  ChartDto,
+  type ChartDto,
   ChartPeriodType,
-  ConversionRequestDto,
-  ConversionResultDto,
+  type ConversionRequestDto,
+  type ConversionResultDto,
   MainApiService,
 } from './main-api.service';
 
